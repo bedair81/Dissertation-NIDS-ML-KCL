@@ -1,5 +1,4 @@
-# Informatics UG Individual Projects
-## LaTeX template for reports
-
-This repository contains a LaTeX class file to be used for creating reports as part of your individual project. In addition to the class file, there is a set of `.tex` files that, together and starting from file `report.tex`, can be used as the starting point when writing your final report.
 # Year-3-Project-Latex-Report
+
+This repository contains a report in Latex format for the `Detect and explain Botnet attacks in the CICIDS2017 dataset` project being done for the 3rd year King's College London 6CCS3PRJ module.
+
