@@ -1,7 +1,7 @@
 \chapter{Design}
 
 \section{Overview}
-The design of the ML-based Network Intrusion Detection System (NIDS) is structured to effectively utilize machine learning for the detection of network intrusions, specifically focusing on botnet attacks within the CICIDS2017 dataset, using a model trained on the CTU-13 dataset. The process encompasses several stages, from data preprocessing to model evaluation and explainability analysis using SHAP.
+The design of the ML-based Network Intrusion Detection System (NIDS) is structured to effectively utilize machine learning for the detection of network intrusions, specifically focusing on botnet attacks within the CICIDS2017 dataset, using a model trained on the CTU-13 dataset. The process encompasses several stages, from data preprocessing to model evaluation and explainability analysis using SHAP.\@
 
 \section{Data Preprocessing Design}
 Data preprocessing is a critical step in ensuring the quality and consistency of the datasets used for training and testing the model. The design includes:
@@ -43,13 +43,8 @@ To ensure the transparency and understandability of the model's decisions:
 \section{Technical and Environmental Setup}
 The project will be implemented in a Python environment with the following considerations:
 
-\begin{itemize}
-    \item \textbf{Development Environment:} Utilizing Python 3.x and libraries such as Pandas, NumPy, Scikit-learn, and SHAP.
-    \item \textbf{Hardware Resources:} Leveraging a personal computer equipped with an AMD 5700G CPU and an Nvidia RTX 3070 ti GPU for model training and testing.
-\end{itemize}
+\textbf{Development Environment:} Utilizing Python 3.x and libraries such as Pandas, NumPy, Scikit-learn, and SHAP.\@
+\textbf{Hardware Resources:} Leveraging a personal computer equipped with an AMD 5700G CPU and an Nvidia RTX 3070 ti GPU for model training and testing.
 
 \section{Conclusion}
 The design of this ML-based NIDS project is structured to effectively train a model on the CTU-13 dataset and test its performance on the CICIDS2017 dataset, with a focus on detecting botnet attacks. The integration of SHAP for explainability ensures that the model's decisions are transparent and interpretable, contributing to the field of network security.
-
-\section{Flowchart Reference}
-For a visual representation of the entire process, refer to the flowchart in the Extra Information chapter (Figure \ref{fig:flowchart}).
