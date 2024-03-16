@@ -426,7 +426,6 @@ INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/lm/omxlmex.fd
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/lm/omxlmex.fd
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmex10.tfm
 OUTPUT main.toc
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmbx12.tfm
 INPUT ./Chapters/Introduction.tex
 INPUT ./Chapters/Introduction.tex
 INPUT ./Chapters/Introduction.tex
@@ -447,6 +446,7 @@ INPUT ./Chapters/Background.tex
 INPUT Chapters/Background.tex
 INPUT ./Chapters/Background.tex
 INPUT Chapters/Background.tex
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmbx12.tfm
 INPUT ./Chapters/Body.tex
 INPUT ./Chapters/Body.tex
 INPUT ./Chapters/Body.tex
