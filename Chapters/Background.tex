@@ -1,6 +1,12 @@
 \chapter{Background}
 
-\section{CTU13 and CICIDS2017 Datasets}
+Section~\ref{sec:datasets} provides an overview of two widely used datasets in the field of network intrusion detection: the CTU13 dataset~\cite{garcia2014empirical} and the CICIDS2017 dataset~\cite{sharafaldin2018toward}. These datasets have been extensively utilized by researchers to develop and evaluate machine learning-based NIDS.\@Understanding the characteristics, strengths, and limitations of these datasets is essential for designing robust and effective intrusion detection systems.
+
+Section~\ref{sec:classifiers} discusses two popular machine learning classifiers, Random Forest and Support Vector Machine, which have been widely used in network intrusion detection systems. The strengths and limitations of these classifiers are highlighted, along with their performance on different datasets. Understanding the capabilities and trade-offs of these classifiers is crucial for selecting appropriate models for intrusion detection.
+
+Section~\ref{sec:explainable} introduces explainable AI techniques, which aim to provide insights into the decision-making process of machine learning models. These techniques help in understanding the factors that contribute to the predictions made by the models and provide interpretable explanations for their outputs. Understanding the importance of explainable AI techniques is essential for validating the reliability of machine learning models and gaining insights into their decision-making process.
+
+\section{CTU13 and CICIDS2017 Datasets}\label{sec:datasets}
 
 The availability of representative and labeled datasets is crucial for developing and evaluating machine learning-based network intrusion detection systems. Two widely used benchmark datasets in this domain are the CTU13 dataset~\cite{garcia2014empirical} and the CICIDS2017 dataset~\cite{sharafaldin2018toward}.
 
@@ -24,7 +30,7 @@ However, Engelen et al.~\cite{engelen2021troubleshooting} identified limitations
 
 The importance of using representative and unbiased datasets for training machine learning models in network intrusion detection is emphasized by Sommer and Paxson~\cite{sommer2010outside}. They highlight the challenges posed by the dynamic nature of network traffic and the constant evolution of attack patterns, which can impact the long-term performance of the trained models. Buczak and Guven~\cite{buczak2015survey} provide a comprehensive survey of machine learning and data mining methods for cyber security intrusion detection. They discuss the considerations and challenges in applying machine learning techniques to network intrusion detection, including the selection of appropriate algorithms, feature engineering, and model evaluation.
 
-\section{Machine Learning Classifiers}
+\section{Machine Learning Classifiers}\label{sec:classifiers}
 
 Machine learning classifiers have been widely used in network intrusion detection systems to automatically identify malicious activities and distinguish them from benign traffic. Random Forest (RF) and Support Vector Machine (SVM) are two popular classifiers that have shown promising results in this domain.
 
@@ -44,7 +50,7 @@ The choice of machine learning classifier depends on various factors, such as th
 
 Comparing the performance of different classifiers on multiple datasets provides valuable insights into their generalization capabilities and transferability. Training classifiers on one dataset and testing them on another helps assess how well the learned patterns and features can be applied to detect intrusions in different network environments. This approach helps in understanding the robustness and adaptability of the classifiers across various scenarios.
 
-\section{Explainable AI Techniques}
+\section{Explainable AI Techniques}\label{sec:explainable}
 
 While machine learning classifiers have shown promising results in network intrusion detection, their decision-making process is often considered a `black box', lacking transparency and interpretability. Explainable AI techniques aim to bridge this gap by providing insights into the reasoning behind the predictions made by these models.
 
