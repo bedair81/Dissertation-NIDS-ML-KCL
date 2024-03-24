@@ -1,2 +1,22 @@
 \chapter{Specification \& Design}
 
+\begin{center}
+    \begin{tikzpicture}[node distance=1.5cm]
+    \node (dataset1) [rectangle, draw] {Dataset 1};
+    \node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
+    \node (trainingdata) [below=1cm of preprocessing.south] {Training data};
+    \node (testingdata) [right=1.5cm of preprocessing] {Testing data}; % Adjusted distance
+    \node (dummyclassifier) [rectangle, draw, below=1cm of trainingdata] {Dummy Classifier};
+    \node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
+    \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+    \node (evaluation) [rectangle, draw, below=of shap] {Evaluation};
+    \draw [->] (dataset1) -- (preprocessing);
+    \draw [->] (preprocessing) -- (trainingdata);
+    \draw [->] (trainingdata) -- (dummyclassifier);
+    \draw [->] (dummyclassifier) -- (trainedmodel);
+    \draw [->] (trainedmodel) -- (shap);
+    \draw [->] (shap) -- (evaluation);
+    \draw [->] (preprocessing.east) -- ++(0.5,0) |- (testingdata);
+    \draw [->] (testingdata) |- (trainedmodel);
+\end{tikzpicture}
+\end{center}
