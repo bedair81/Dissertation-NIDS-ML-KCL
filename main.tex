@@ -4,11 +4,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt]{informatics-report}
 \usepackage{color}
-\usepackage[square,sort,comma,numbers]{natbib} %References
+\usepackage[square,sort,comma,numbers]{natbib}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Front Matter - project title, name, supervisor name and date
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Transferability and Explainability of Machine Learning Models for Network Intrusion Detection}
 \author{Ahmed Bedair}
 \studentID{K2105577}
@@ -17,18 +14,13 @@
 \date{\today}
 
 \abstractFile{FrontMatter/abstract.tex}
-\ackFile{FrontMatter/acknowledgements.tex} %Remove line if you do not want acknowledgements
+\ackFile{FrontMatter/acknowledgements.tex}
 
 \begin{document}
 \createFrontMatter%
 \onehalfspacing%
 \tableofcontents
 \doublespacing%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Report Content
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% You can write each chapter directly here or in a separate .tex file and use the include command.
 
 \include{Chapters/Introduction}
 \include{Chapters/Background}
@@ -38,18 +30,7 @@
 \include{Chapters/ProfessionalIssues}
 \include{Chapters/Conclusion}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% References
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{plain}
 \bibliography{references}
 \addcontentsline{toc}{section}{Bibliography}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Appendices
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
-\include{Appendices/appendix}
-\include{Appendices/UserGuide}
-\include{Appendices/SourceCode}
 \end{document}
