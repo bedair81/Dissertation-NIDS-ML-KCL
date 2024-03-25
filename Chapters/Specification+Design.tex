@@ -1,6 +1,16 @@
 \chapter{Specification \& Design}
 
-This chapter describes the specification and design of the experiments conducted in this paper, split into 3 sections, each detailing the experimental setup for the Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier.
+This chapter describes the specification and design of the experiments conducted in this research, split into three sections, each detailing the experimental setup for the Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier.
+
+The CTU13 dataset contains real botnet traffic captured in a controlled environment, consisting of 13 scenarios representing specific botnet behaviors [10]. On the other hand, the CICIDS2017 dataset is a more recent and comprehensive dataset designed for evaluating network intrusion detection systems, containing a wide range of modern attacks [19]. The motivation for using these datasets is to assess the transferability and generalizability of machine learning models trained on the CICIDS2017 dataset in detecting botnet attacks in the real-world CTU13 dataset.
+
+The preprocessing steps, particularly the relabeling process using the relabelCTU13.py and relabelCICIDS2017.py scripts, are crucial in ensuring consistency and compatibility between the datasets. These scripts map the features of each dataset to a common naming convention, enabling fair comparisons and analysis. The relabeling process also addresses the challenge of inconsistent labeling across datasets, which is a common issue in network intrusion detection research.
+
+The evaluation metrics used in this research include the confusion matrix, accuracy, precision, recall, and F1 score. These metrics provide a comprehensive assessment of the classifiers' performance in the context of network intrusion detection. The confusion matrix allows for a detailed analysis of the classifiers' predictions, while accuracy, precision, recall, and F1 score offer a quantitative measure of their effectiveness in correctly identifying network intrusions.
+
+The SHAP (SHapley Additive exPlanations) library is employed to interpret the trained models' predictions and provide insights into their decision-making process. SHAP assigns importance scores to each feature, indicating their contribution to the model's prediction for a specific instance. By applying SHAP to the trained classifiers, this research aims to identify the key features that contribute to the detection of specific types of attacks. The insights gained from SHAP can aid in understanding the underlying patterns and behaviors that indicate malicious activities, guiding feature engineering and model development efforts.
+
+It is important to note that all train-test splits in this research are performed using a 60/40 ratio, with 60\% of the data used for training and 40\% for testing. This split ratio is chosen to ensure a reasonable balance between training and testing data, while avoiding overfitting of the models. By using a consistent 60/40 split across all experiments, the results can be fairly compared and evaluated.
 
 \section{Dummy Classifier}\label{sec:DummyClassifier}
 
@@ -227,5 +237,3 @@ The SVM Classifier experiment on the binary CICIDS2017 dataset involves preproce
 \end{figure}
 
 The SVM Classifier experiment on the multi-class CICIDS2017 dataset follows a similar process as the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is then split into training and testing sets. The training data is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
-
-In conclusion, this chapter provides a detailed specification and design of the experiments conducted using the Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier on the CTU13 and CICIDS2017 datasets. The experiments are designed to evaluate the performance of these classifiers in binary and multi-class classification tasks, with a focus on preprocessing the datasets to ensure consistency and compatibility. The use of the SHAP library for model explanations and the evaluation of performance metrics provide a comprehensive assessment of the classifiers' effectiveness in detecting network intrusions. The inclusion of flowcharts for each experiment enhances the clarity and understanding of the experimental setup and design.
