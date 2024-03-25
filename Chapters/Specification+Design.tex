@@ -1,26 +1,231 @@
 \chapter{Specification \& Design}
 
-\section{Dummy Classifier}
+This chapter describes the specification and design of the experiments conducted in this paper, split into 3 sections, each detailing the experimental setup for the Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier.
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[node distance=1.5cm]
-    \node (dataset1) [rectangle, draw] {Dataset 1};
-    \node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
-    \node (trainingdata) [below=1cm of preprocessing.south] {Training data};
-    \node (testingdata) [right=1.5cm of preprocessing] {Testing data};
-    \node (dummyclassifier) [rectangle, draw, below=1cm of trainingdata] {Dummy Classifier};
-    \node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
-    \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-    \node (evaluation) [rectangle, draw, below=of shap] {Evaluation};
-    \draw [->] (dataset1) -- (preprocessing);
-    \draw [->] (preprocessing) -- (trainingdata);
-    \draw [->] (trainingdata) -- (dummyclassifier);
-    \draw [->] (dummyclassifier) -- (trainedmodel);
-    \draw [->] (trainedmodel) -- (shap);
-    \draw [->] (shap) -- (evaluation);
-    \draw [->] (preprocessing.east) -- ++(0.5,0) |- (testingdata);
-    \draw [->] (testingdata) |- (trainedmodel);
-    \end{tikzpicture}
-    \caption{Dummy Classifier Flowchart}\label{fig:DummyRandomFlow}
+\section{Dummy Classifier}\label{sec:DummyClassifier}
+
+\textbf{Purpose} The Dummy Classifier serves as a baseline model to establish a performance benchmark against which the more advanced Random Forest and Support Vector Machine classifiers will be compared. By evaluating the Dummy Classifier's performance, we can assess the effectiveness of the other classifiers in improving upon the baseline results.
+
+\subsection{CTU13}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
+\node (dummyclassifier) [rectangle, draw, below=of preprocessing] {Dummy Classifier};
+\node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (dummyclassifier);
+\draw [->] (dummyclassifier) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{Dummy Classifier Flowchart for CTU13}\label{fig:DummyRandomFlowCTU13}
 \end{figure}
+
+The experiment begins with the raw pcap files from the CTU13 dataset, which contains only botnet attacks and benign traffic. Due to the limited scope of the dataset, a multi-class approach is not feasible. The data undergoes preprocessing to ensure compatibility with the classifier. This preprocessing step involves relabeling the dataset to maintain consistency with the CICIDS2017 dataset, as shown in the relabelCTU13.py script. The relabeling process maps the CTU13 dataset's features to match the naming convention used in the CICIDS2017 dataset, enabling fair comparisons between the two datasets.
+
+After preprocessing, the data is split into training and testing sets. The training data is used to train the Dummy Classifier, which is then employed to make predictions on the testing data. The predictions are evaluated using the SHAP (SHapley Additive exPlanations) library, which provides explanations for the classifier's decisions. The evaluation metrics include the confusion matrix, accuracy, precision, recall, and F1 score, offering a comprehensive assessment of the classifier's performance.
+
+\subsection{Binary CICIDS2017}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
+\node (dummyclassifier) [rectangle, draw, below=of preprocessing] {Dummy Classifier};
+\node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (dummyclassifier);
+\draw [->] (dummyclassifier) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{Dummy Classifier Flowchart for Binary CICIDS2017}\label{fig:DummyRandomFlowBinaryCICIDS2017}
+\end{figure}
+
+The experiment utilizing the CICIDS2017 dataset follows a similar structure to the CTU13 experiment. The raw pcap files from CICIDS2017 are preprocessed to ensure compatibility with the classifier and to convert the dataset into a binary classification problem. The preprocessing step, as detailed in the relabelCICIDS2017.py script, involves relabeling the dataset to maintain consistency with the CTU13 dataset. The script maps the CICIDS2017 dataset's features to match the naming convention used in the CTU13 dataset, enabling fair comparisons between the two datasets.
+
+After preprocessing, the data is split into training and testing sets. The training data is used to train the Dummy Classifier, which is then employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the CTU13 experiment.
+
+\subsection{Multi-class CICIDS2017}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
+\node (dummyclassifier) [rectangle, draw, below=of preprocessing] {Dummy Classifier};
+\node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (dummyclassifier);
+\draw [->] (dummyclassifier) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{Dummy Classifier Flowchart for Multi-class CICIDS2017}\label{fig:DummyRandomFlowMultiCICIDS2017}
+\end{figure}
+
+In contrast to the CTU13 dataset, the CICIDS2017 dataset contains a diverse range of attack types, enabling a multi-class classification approach. The raw pcap files from CICIDS2017 are preprocessed to ensure compatibility with the classifier and to convert the dataset into a multi-class classification problem. The preprocessing step, as outlined in the relabelCICIDS2017.py script, involves relabeling the dataset to maintain consistency with the CTU13 dataset, similar to the binary classification experiment.
+
+After preprocessing, the data is split into training and testing sets. The training data is used to train the Dummy Classifier, which is then employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+
+\section{Random Forest Classifier}\label{sec:RandomForestClassifier}
+\textbf{Purpose} The Random Forest Classifier is employed to improve upon the performance of the Dummy Classifier by leveraging an ensemble of decision trees to make predictions. By combining multiple decision trees, the Random Forest Classifier aims to capture more complex patterns and relationships within the data, potentially leading to enhanced classification accuracy.
+
+\subsection{CTU13}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
+\node (randomforest) [rectangle, draw, below=of preprocessing] {Random Forest Classifier};
+\node (trainedmodel) [rectangle, draw, below=of randomforest] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (randomforest);
+\draw [->] (randomforest) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{Random Forest Classifier Flowchart for CTU13}\label{fig:RandomForestFlowCTU13}
+\end{figure}
+
+The Random Forest Classifier experiment on the CTU13 dataset follows a similar process as the Dummy Classifier experiment. The data is preprocessed using the relabelCTU13.py script to ensure consistency with the CICIDS2017 dataset. The preprocessed data is then split into training and testing sets. The training data is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the Dummy Classifier experiment.
+
+\subsection{Binary CICIDS2017}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
+\node (randomforest) [rectangle, draw, below=of preprocessing] {Random Forest Classifier};
+\node (trainedmodel) [rectangle, draw, below=of randomforest] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (randomforest);
+\draw [->] (randomforest) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{Random Forest Classifier Flowchart for Binary CICIDS2017}\label{fig:RandomForestFlowBinaryCICIDS2017}
+\end{figure}
+
+The Random Forest Classifier experiment on the binary CICIDS2017 dataset involves preprocessing the raw pcap files using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and converting the problem into a binary classification task. The preprocessed data is then split into training and testing sets. The training data is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+
+\subsection{Multi-class CICIDS2017}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
+\node (randomforest) [rectangle, draw, below=of preprocessing] {Random Forest Classifier};
+\node (trainedmodel) [rectangle, draw, below=of randomforest] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (randomforest);
+\draw [->] (randomforest) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{Random Forest Classifier Flowchart for Multi-class CICIDS2017}\label{fig:RandomForestFlowMultiCICIDS2017}
+\end{figure}
+
+The Random Forest Classifier experiment on the multi-class CICIDS2017 dataset follows a similar process as the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is then split into training and testing sets. The training data is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+
+\section{Support Vector Machine Classifier}\label{sec:SVMClassifier}
+\textbf{Purpose} The Support Vector Machine (SVM) Classifier is utilized to improve upon the performance of the Dummy Classifier by finding the optimal hyperplane that separates the different classes in the feature space. SVM is known for its ability to handle high-dimensional data and its effectiveness in binary classification tasks. By employing kernel tricks, SVM can also be extended to handle non-linearly separable data.
+
+\subsection{CTU13}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
+\node (svm) [rectangle, draw, below=of preprocessing] {SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of svm] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (svm);
+\draw [->] (svm) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{SVM Classifier Flowchart for CTU13}\label{fig:SVMFlowCTU13}
+\end{figure}
+
+The SVM Classifier experiment on the CTU13 dataset follows a similar process as the Dummy Classifier experiment. The data is preprocessed using the relabelCTU13.py script to ensure consistency with the CICIDS2017 dataset. The preprocessed data is then split into training and testing sets. The training data is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+
+\subsection{Binary CICIDS2017}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
+\node (svm) [rectangle, draw, below=of preprocessing] {SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of svm] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (svm);
+\draw [->] (svm) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{SVM Classifier Flowchart for Binary CICIDS2017}\label{fig:SVMFlowBinaryCICIDS2017}
+\end{figure}
+
+The SVM Classifier experiment on the binary CICIDS2017 dataset involves preprocessing the raw pcap files using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and converting the problem into a binary classification task. The preprocessed data is then split into training and testing sets. The training data is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+
+\subsection{Multi-class CICIDS2017}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm]
+\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+\node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
+\node (svm) [rectangle, draw, below=of preprocessing] {SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of svm] {Trained Model};
+\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
+\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+
+\draw [->] (dataset1) -- (preprocessing);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data} (svm);
+\draw [->] (svm) -- (trainedmodel);
+\draw [->] (trainedmodel) -- (shap);
+\draw [->] (shap) -- (evaluation);
+\draw [->] (preprocessing) -- node[anchor=south, xshift=0.75cm] {Testing Data} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\end{tikzpicture}
+\caption{SVM Classifier Flowchart for Multi-class CICIDS2017}\label{fig:SVMFlowMultiCICIDS2017}
+\end{figure}
+
+The SVM Classifier experiment on the multi-class CICIDS2017 dataset follows a similar process as the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is then split into training and testing sets. The training data is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data. The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+
+In conclusion, this chapter provides a detailed specification and design of the experiments conducted using the Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier on the CTU13 and CICIDS2017 datasets. The experiments are designed to evaluate the performance of these classifiers in binary and multi-class classification tasks, with a focus on preprocessing the datasets to ensure consistency and compatibility. The use of the SHAP library for model explanations and the evaluation of performance metrics provide a comprehensive assessment of the classifiers' effectiveness in detecting network intrusions. The inclusion of flowcharts for each experiment enhances the clarity and understanding of the experimental setup and design.
