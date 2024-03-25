@@ -1,11 +1,14 @@
 \chapter{Specification \& Design}
 
-\begin{center}
+\section{Dummy Classifier}
+
+\begin{figure}[h]
+    \centering
     \begin{tikzpicture}[node distance=1.5cm]
     \node (dataset1) [rectangle, draw] {Dataset 1};
     \node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
     \node (trainingdata) [below=1cm of preprocessing.south] {Training data};
-    \node (testingdata) [right=1.5cm of preprocessing] {Testing data}; % Adjusted distance
+    \node (testingdata) [right=1.5cm of preprocessing] {Testing data};
     \node (dummyclassifier) [rectangle, draw, below=1cm of trainingdata] {Dummy Classifier};
     \node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
     \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
@@ -18,5 +21,6 @@
     \draw [->] (shap) -- (evaluation);
     \draw [->] (preprocessing.east) -- ++(0.5,0) |- (testingdata);
     \draw [->] (testingdata) |- (trainedmodel);
-\end{tikzpicture}
-\end{center}
+    \end{tikzpicture}
+    \caption{Dummy Classifier Flowchart}\label{fig:DummyRandomFlow}
+\end{figure}
