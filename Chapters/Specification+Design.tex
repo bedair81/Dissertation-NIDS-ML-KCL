@@ -2,30 +2,30 @@
 
 This chapter describes the specification and design of the experiments conducted in this research, split into three sections, each detailing the experimental setup for the Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier.
 
-The CTU13 dataset contains real botnet traffic captured in a controlled environment, consisting of 13 scenarios representing specific botnet behaviors [10]. On the other hand, the CICIDS2017 dataset is a more recent and comprehensive dataset designed for evaluating network intrusion detection systems, containing a wide range of modern attacks [19]. The motivation for using these datasets is to assess the transferability and generalisability of machine learning models trained on the CICIDS2017 dataset in detecting botnet attacks in the real-world CTU13 dataset.
+The CTU13 dataset contains real botnet traffic captured in a controlled environment, consisting of 13 scenarios representing specific botnet behaviors~\cite{garcia2014empirical}. On the other hand, the CICIDS2017 dataset is a more recent and comprehensive dataset designed for evaluating network intrusion detection systems, containing a wide range of modern attacks~\cite{sharafaldin2018toward}. The motivation for using these datasets is to assess the transferability and generalisability of machine learning models trained on the CICIDS2017 dataset in detecting botnet attacks in the real-world CTU13 dataset.
 
-The preprocessing steps, particularly the relabeling process using the relabelCTU13.py and relabelCICIDS2017.py scripts, are crucial in ensuring consistency and compatibility between the datasets. These scripts map the features of each dataset to a common naming convention, enabling fair comparisons and analysis. The relabeling process also addresses the challenge of inconsistent labeling across datasets, which is a common issue in network intrusion detection research.
+The preprocessing steps, particularly the relabeling process using the relabelCTU13.py and relabelCICIDS2017.py scripts, ensure consistency and compatibility between the datasets. These scripts map the features of each dataset to a standard naming convention, enabling fair comparisons and analysis. The relabeling process also addresses the challenge of inconsistent labeling across datasets, which is a common issue in network intrusion detection research.
 
 The evaluation metrics used in this research include the confusion matrix, accuracy, precision, recall, and F1 score. These metrics provide a comprehensive assessment of the classifiers' performance in the context of network intrusion detection. The confusion matrix allows for a detailed analysis of the classifiers' predictions, while accuracy, precision, recall, and F1 score offer a quantitative measure of their effectiveness in correctly identifying network intrusions.
 
-The SHAP (SHapley Additive exPlanations) library is employed to interpret the trained models' predictions and provide insights into their decision-making process. SHAP assigns importance scores to each feature, indicating their contribution to the model's prediction for a specific instance. By applying SHAP to the trained classifiers, this research aims to identify the key features that contribute to the detection of specific types of attacks. The insights gained from SHAP can aid in understanding the underlying patterns and behaviors that indicate malicious activities, guiding feature engineering and model development efforts.
+The SHAP (SHapley Additive exPlanations) library is employed to interpret the trained models' predictions and provide insights into their decision-making process. SHAP assigns importance scores to each feature, indicating their contribution to the model's prediction for a specific instance. By applying SHAP to the trained classifiers, this research aims to identify the key features that contribute to detecting specific types of attacks. The insights gained from SHAP can aid in understanding the underlying patterns and behaviors that indicate malicious activities, guiding feature engineering and model development efforts.
 
-It is important to note that all train-test splits in this research are performed using a 60/40 ratio, with 60\% of the data used for training and 40\% for testing. This split ratio is chosen to ensure a reasonable balance between training and testing data, while avoiding overfitting of the models. By using a consistent 60/40 split across all experiments, the results can be fairly compared and evaluated.
+It is worth mentioning that all train-test splits performed in this research use a 60/40 ratio. That means 60\% of the data is used for training and 40\% for testing. A 60/40 train/test split fairly balances the training and testing data. This balance helps to avoid overfitting and ensures fairness in testing. 
 
 \subsection{Alternative Designs and Dataset Selection}
-In the process of designing the experiments, alternative classifier algorithms and datasets were considered. Neural network-based classifiers, such as Multi-Layer Perceptron (MLP) and Convolutional Neural Networks (CNN), have shown promising results in network intrusion detection tasks [22, 17]. However, these classifiers were not pursued in this research due to their higher computational complexity and the focus on interpretability using SHAP, which is more straightforward with tree-based and kernel-based classifiers like Random Forest and SVM.\@
+The paper considered various sets of classifiers when designing the experiments. Neural network-based classifiers, such as Multi-Layer Perceptron (MLP) and Convolutional Neural Networks (CNN), have shown promising results in network intrusion detection tasks~\cite{ustebay2018intrusion,pektacs2019deep}. However, the paper did not use such classifiers due to their higher computational complexity and the focus on interpretability using SHAP, which is more straightforward with tree-based and kernel-based classifiers like Random Forest and SVM.\@
 
-Decision trees and k-Nearest Neighbors (k-NN) classifiers were also considered as alternatives to Random Forest and SVM.\@ Belouch et al. [4] conducted a comparative study of different classifiers on the CICIDS2017 dataset and found that Random Forest outperformed Decision Trees and k-NN in terms of accuracy and false positive rates. Based on these findings and the ability of Random Forest to capture complex interactions among features, Decision Trees and k-NN were not selected for this research.
+Other classifiers considered include Decision trees and k-nearest Neighbors (k-NN), which could have been alternatives to the currently used Random Forest and SVM.\@ Belouch et al.~\cite{belouch2018performance} conducted a comparative study of different classifiers on the CICIDS2017 dataset and found that Random Forest outperformed Decision Trees and k-NN in terms of accuracy and false-positive rates. The study's results suggested that Random Forest and SVM could perform better, hence the decision to use them in this research.
 
-The choice of CICIDS2017 and CTU13 datasets was driven by the focus on evaluating botnet attacks and the transferability of models trained on a comprehensive dataset to a specific real-world scenario. CICIDS2017 was selected as the primary training dataset due to its wide range of modern attacks and its realistic network environment [19]. The inclusion of various attack types in CICIDS2017 allows for a comprehensive evaluation of the classifiers' performance.
+The paper's choice of CTU13 and CICIDS2017 was made based on each dataset's properties and makeup, respectively. CICIDS2017 contains many modern attacks, making it suitable for training classifiers to detect various intrusion types~\cite{sharafaldin2018toward}. CTU13, on the other hand, focuses specifically on botnet attacks, providing a controlled environment for evaluating the transferability of models trained on CICIDS2017 to a specific attack scenario. Since the paper aims to focus specifically on botnet attacks and assess the transferability of models across datasets, the combination of CICIDS2017 and CTU13 datasets was deemed appropriate.
 
-CTU13, on the other hand, is a dataset specifically focused on botnet attacks captured in a controlled environment [10]. The motivation behind using CTU13 as the testing dataset is to assess the transferability of models trained on CICIDS2017 to detect botnet attacks in a real-world setting. By evaluating the classifiers' performance on CTU13, this research aims to investigate the generalisability of the learned patterns and features from CICIDS2017 to a specific attack scenario.
+The CTU13 dataset is a collection of data focused on botnet attacks captured in a controlled environment~\cite{garcia2014empirical}.  The purpose of utilizing CTU13 as the testing dataset is to evaluate the effectiveness of models trained on CICIDS2017 in detecting botnet attacks in a real-world setting. By examining the performance of classifiers on CTU13, this study aims to assess the applicability of the learned patterns and features from CICIDS2017 to a specific attack scenario.
 
-The combination of CICIDS2017 and CTU13 datasets enables a comprehensive analysis of the classifiers' ability to detect botnet attacks and provides insights into the transferability of models across different network environments and attack scenarios. This design choice aligns with the research objectives of assessing the effectiveness of machine learning classifiers in detecting botnet attacks and understanding the challenges and limitations of transferring learned patterns across datasets.
+The combination of CICIDS2017 and CTU13 datasets enables a comprehensive analysis of the classifiers' ability to detect botnet attacks. It provides insights into the transferability of models across different network environments and attack scenarios. This design choice aligns with the research objectives of assessing the effectiveness of machine learning classifiers in detecting botnet attacks and understanding the challenges and limitations of transferring learned patterns across datasets.
 
 \section{Dummy Classifier}\label{sec:DummyClassifier}
 
-\textbf{Purpose} The Dummy Classifier serves as a baseline model to establish a performance benchmark against which the more advanced Random Forest and Support Vector Machine classifiers will be compared. By evaluating the Dummy Classifier's performance, we can assess the effectiveness of the other classifiers in improving upon the baseline results.
+\textbf{Purpose} The Dummy Classifier serves as a reference point to evaluate the efficacy of advanced classifiers like Random Forests and Support Vector Machines. If either of these classifiers fails to outperform the Dummy Classifier, it indicates that the model is not learning effectively from the data. The Dummy Classifier randomly assigns labels to the data, providing a baseline for comparison with more sophisticated models.
 
 \subsection{CTU13}
 
@@ -51,7 +51,7 @@ The combination of CICIDS2017 and CTU13 datasets enables a comprehensive analysi
 
 The experiment begins with the raw pcap files from the CTU13 dataset, which contains only botnet attacks and benign traffic. Due to the limited scope of the dataset, a multi-class approach is not feasible. The data undergoes preprocessing to ensure compatibility with the classifier. This preprocessing step involves relabeling the dataset to maintain consistency with the CICIDS2017 dataset, as shown in the relabelCTU13.py script. The relabeling process maps the CTU13 dataset's features to match the naming convention used in the CICIDS2017 dataset, enabling fair comparisons between the two datasets.
 
-After preprocessing, the data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Dummy Classifier, which is then employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP (SHapley Additive exPlanations) library, which provides explanations for the classifier's decisions. The evaluation metrics include the confusion matrix, accuracy, precision, recall, and F1 score, offering a comprehensive assessment of the classifier's performance.
+After preprocessing, the data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Dummy Classifier, which is then employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP (SHapley Additive exPlanations) library, which explains which features the classifier used to inform its decisions. The evaluation metrics include the confusion matrix, accuracy, precision, recall, and F1 score, offering a comprehensive assessment of the classifier's performance.
 
 \subsection{Binary CICIDS2017}
 
@@ -75,9 +75,9 @@ After preprocessing, the data is split into training and testing sets using a 60
 \caption{Dummy Classifier Flowchart for Binary CICIDS2017}\label{fig:DummyRandomFlowBinaryCICIDS2017}
 \end{figure}
 
-The experiment utilising the CICIDS2017 dataset follows a similar structure to the CTU13 experiment. The raw pcap files from CICIDS2017 are preprocessed to ensure compatibility with the classifier and to convert the dataset into a binary classification problem. The preprocessing step, as detailed in the relabelCICIDS2017.py script, involves relabeling the dataset to maintain consistency with the CTU13 dataset. The script maps the CICIDS2017 dataset's features to match the naming convention used in the CTU13 dataset, enabling fair comparisons between the two datasets.
+The experiment utilising the CICIDS2017 dataset follows a similar structure to the CTU13 experiment. The raw pcap files from CICIDS2017 are preprocessed to ensure compatibility with the classifier and to convert the dataset into a binary classification problem. As detailed in the relabelCICIDS2017.py script, the preprocessing step involves relabeling the dataset to maintain consistency with the CTU13 dataset. The script maps the CICIDS2017 dataset's features to match the naming convention used in the CTU13 dataset, enabling fair comparisons between the two datasets.
 
-After preprocessing, the data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Dummy Classifier, which is then employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the CTU13 experiment.
+After preprocessing, the data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Dummy Classifier, which is then employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations, and the same set of performance metrics as in the CTU13 experiment are used.
 
 \subsection{Multi-class CICIDS2017}
 
@@ -101,12 +101,12 @@ After preprocessing, the data is split into training and testing sets using a 60
 \caption{Dummy Classifier Flowchart for Multi-class CICIDS2017}\label{fig:DummyRandomFlowMultiCICIDS2017}
 \end{figure}
 
-In contrast to the CTU13 dataset, the CICIDS2017 dataset contains a diverse range of attack types, enabling a multi-class classification approach. The raw pcap files from CICIDS2017 are preprocessed to ensure compatibility with the classifier and to convert the dataset into a multi-class classification problem. The preprocessing step, as outlined in the relabelCICIDS2017.py script, involves relabeling the dataset to maintain consistency with the CTU13 dataset, similar to the binary classification experiment.
+In contrast to the CTU13 dataset, the CICIDS2017 dataset contains a diverse range of attack types, enabling a multi-class classification approach. The raw pcap files from CICIDS2017 are preprocessed to ensure compatibility with the classifier and to convert the dataset into a multi-class classification problem. As outlined in the relabelCICIDS2017.py script, the preprocessing step involves relabeling the dataset to maintain consistency with the CTU13 dataset, similar to the binary classification experiment.
 
 After preprocessing, the data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Dummy Classifier, which is then employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
 
 \section{Random Forest Classifier}\label{sec:RandomForestClassifier}
-\textbf{Purpose} The Random Forest Classifier is employed to improve upon the performance of the Dummy Classifier by leveraging an ensemble of decision trees to make predictions. By combining multiple decision trees, the Random Forest Classifier aims to capture more complex patterns and relationships within the data, potentially leading to enhanced classification accuracy.
+\textbf{Purpose} The Random Forest Classifier is employed to improve the Dummy Classifier's performance by leveraging an ensemble of decision trees to make predictions. Combining multiple decision trees, the Random Forest Classifier aims to capture more complex patterns and relationships within the data, potentially enhancing classification accuracy.
 
 \subsection{CTU13}
 \begin{figure}[H]
@@ -129,7 +129,7 @@ After preprocessing, the data is split into training and testing sets using a 60
 \caption{Random Forest Classifier Flowchart for CTU13}\label{fig:RandomForestFlowCTU13}
 \end{figure}
 
-The Random Forest Classifier experiment on the CTU13 dataset follows a similar process as the Dummy Classifier experiment. The data is preprocessed using the relabelCTU13.py script to ensure consistency with the CICIDS2017 dataset. The preprocessed data is then split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the Dummy Classifier experiment.
+The Random Forest Classifier experiment on the CTU13 dataset follows a similar process as the Dummy Classifier experiment. The data is preprocessed using the relabelCTU13.py script to ensure consistency with the CICIDS2017 dataset. The preprocessed data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the Dummy Classifier experiment.
 
 \subsection{Binary CICIDS2017}
 \begin{figure}[H]
@@ -152,7 +152,7 @@ The Random Forest Classifier experiment on the CTU13 dataset follows a similar p
 \caption{Random Forest Classifier Flowchart for Binary CICIDS2017}\label{fig:RandomForestFlowBinaryCICIDS2017}
 \end{figure}
 
-The Random Forest Classifier experiment on the binary CICIDS2017 dataset involves preprocessing the raw pcap files using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and converting the problem into a binary classification task. The preprocessed data is then split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+The Random Forest Classifier experiment on the binary CICIDS2017 dataset involves preprocessing the raw pcap files using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and converting the problem into a binary classification task. The preprocessed data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
 
 \subsection{Multi-class CICIDS2017}
 \begin{figure}[H]
@@ -175,10 +175,10 @@ The Random Forest Classifier experiment on the binary CICIDS2017 dataset involve
 \caption{Random Forest Classifier Flowchart for Multi-class CICIDS2017}\label{fig:RandomForestFlowMultiCICIDS2017}
 \end{figure}
 
-The Random Forest Classifier experiment on the multi-class CICIDS2017 dataset follows a similar process as the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is then split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+The Random Forest Classifier experiment on the multi-class CICIDS2017 dataset follows a process similar to that of the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the Random Forest Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
 
 \section{Support Vector Machine Classifier}\label{sec:SVMClassifier}
-\textbf{Purpose} The Support Vector Machine (SVM) Classifier is utilised to improve upon the performance of the Dummy Classifier by finding the optimal hyperplane that separates the different classes in the feature space. SVM is known for its ability to handle high-dimensional data and its effectiveness in binary classification tasks. By employing kernel tricks, SVM can also be extended to handle non-linearly separable data.
+\textbf{Purpose} The Support Vector Machine (SVM) Classifier is utilised to improve the Dummy Classifier's performance by finding the optimal hyperplane that separates the different classes in the feature space. SVM is known for its ability to handle high-dimensional data and its effectiveness in binary classification tasks. Using kernel tricks, SVM can be extended to handle non-linearly separable data if necessary.
 
 \subsection{CTU13}
 \begin{figure}[H]
@@ -186,14 +186,14 @@ The Random Forest Classifier experiment on the multi-class CICIDS2017 dataset fo
 \begin{tikzpicture}[node distance=1.5cm]
 \node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
 \node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing};
-\node (svm) [rectangle, draw, below=of preprocessing] {SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of svm] {Trained Model};
+\node (SVM) [rectangle, draw, below=of preprocessing] {SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of SVM] {Trained Model};
 \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
 \node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
 
 \draw [->] (dataset1) -- (preprocessing);
-\draw [->] (preprocessing) -- node[anchor=east] {Training Data (60\%)} (svm);
-\draw [->] (svm) -- (trainedmodel);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data (60\%)} (SVM);
+\draw [->] (SVM) -- (trainedmodel);
 \draw [->] (trainedmodel) -- (shap);
 \draw [->] (shap) -- (evaluation);
 \draw [->] (preprocessing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
@@ -201,7 +201,7 @@ The Random Forest Classifier experiment on the multi-class CICIDS2017 dataset fo
 \caption{SVM Classifier Flowchart for CTU13}\label{fig:SVMFlowCTU13}
 \end{figure}
 
-The SVM Classifier experiment on the CTU13 dataset follows a similar process as the Dummy Classifier experiment. The data is preprocessed using the relabelCTU13.py script to ensure consistency with the CICIDS2017 dataset. The preprocessed data is then split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+The SVM Classifier experiment on the CTU13 dataset follows a similar process as the Dummy Classifier experiment. The data is preprocessed using the relabelCTU13.py script to ensure consistency with the CICIDS2017 dataset. The preprocessed data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
 
 \subsection{Binary CICIDS2017}
 \begin{figure}[H]
@@ -209,14 +209,14 @@ The SVM Classifier experiment on the CTU13 dataset follows a similar process as 
 \begin{tikzpicture}[node distance=1.5cm]
 \node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
 \node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
-\node (svm) [rectangle, draw, below=of preprocessing] {SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of svm] {Trained Model};
+\node (SVM) [rectangle, draw, below=of preprocessing] {SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of SVM] {Trained Model};
 \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
 \node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
 
 \draw [->] (dataset1) -- (preprocessing);
-\draw [->] (preprocessing) -- node[anchor=east] {Training Data (60\%)} (svm);
-\draw [->] (svm) -- (trainedmodel);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data (60\%)} (SVM);
+\draw [->] (SVM) -- (trainedmodel);
 \draw [->] (trainedmodel) -- (shap);
 \draw [->] (shap) -- (evaluation);
 \draw [->] (preprocessing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
@@ -224,7 +224,7 @@ The SVM Classifier experiment on the CTU13 dataset follows a similar process as 
 \caption{SVM Classifier Flowchart for Binary CICIDS2017}\label{fig:SVMFlowBinaryCICIDS2017}
 \end{figure}
 
-The SVM Classifier experiment on the binary CICIDS2017 dataset involves preprocessing the raw pcap files using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and converting the problem into a binary classification task. The preprocessed data is then split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+The SVM Classifier experiment on the binary CICIDS2017 dataset involves preprocessing the raw pcap files using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and converting the problem into a binary classification task. The preprocessed data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
 
 \subsection{Multi-class CICIDS2017}
 \begin{figure}[H]
@@ -232,14 +232,14 @@ The SVM Classifier experiment on the binary CICIDS2017 dataset involves preproce
 \begin{tikzpicture}[node distance=1.5cm]
 \node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
 \node (preprocessing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
-\node (svm) [rectangle, draw, below=of preprocessing] {SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of svm] {Trained Model};
+\node (SVM) [rectangle, draw, below=of preprocessing] {SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of SVM] {Trained Model};
 \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
 \node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
 
 \draw [->] (dataset1) -- (preprocessing);
-\draw [->] (preprocessing) -- node[anchor=east] {Training Data (60\%)} (svm);
-\draw [->] (svm) -- (trainedmodel);
+\draw [->] (preprocessing) -- node[anchor=east] {Training Data (60\%)} (SVM);
+\draw [->] (SVM) -- (trainedmodel);
 \draw [->] (trainedmodel) -- (shap);
 \draw [->] (shap) -- (evaluation);
 \draw [->] (preprocessing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]preprocessing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
@@ -247,4 +247,4 @@ The SVM Classifier experiment on the binary CICIDS2017 dataset involves preproce
 \caption{SVM Classifier Flowchart for Multi-class CICIDS2017}\label{fig:SVMFlowMultiCICIDS2017}
 \end{figure}
 
-The SVM Classifier experiment on the multi-class CICIDS2017 dataset follows a similar process as the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is then split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
+The SVM Classifier experiment on the multi-class CICIDS2017 dataset follows a process similar to that of the binary classification experiment. The raw pcap files are preprocessed using the relabelCICIDS2017.py script to ensure consistency with the CTU13 dataset and to convert the problem into a multi-class classification task. The preprocessed data is split into training and testing sets using a 60/40 ratio. The training data (60\% of the dataset) is used to train the SVM Classifier, which is subsequently employed to make predictions on the testing data (40\% of the dataset). The predictions are evaluated using the SHAP library for explanations and the same set of performance metrics as in the previous experiments.
