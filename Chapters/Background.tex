@@ -12,7 +12,45 @@ The availability of representative and labelled datasets is crucial for developi
 
 Garcia et al.~\cite{garcia2014empirical} introduced the CTU13 dataset, which contains real botnet traffic captured in a controlled environment. The dataset consists of 13 scenarios, each representing specific botnet behaviours such as port scanning, DDoS attacks, click fraud, and spam. The authors provide a detailed description of the dataset creation methodology, including the setup of the controlled environment, the use of actual botnet samples, and the labelling process based on the known behaviour of the captured botnets. They also present an evaluation of the dataset using various machine learning algorithms, demonstrating its utility for botnet detection research. The realistic nature of the CTU13 dataset and the variety of botnet scenarios it covers have made it a popular choice among researchers.
 
+Table~\ref{tab:ctu13_breakdown} shows the breakdown of classes in the CTU13 dataset.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|} \hline 
+         \textbf{Class}&  Benign& Botnet\\ \hline 
+         \textbf{Count}&  213,326& 15,559\\ \hline
+    \end{tabular}
+    \caption{CTU13 Dataset Class Breakdown}\label{tab:ctu13_breakdown}
+\end{table}
+
 Sharafaldin et al.~\cite{sharafaldin2018toward} created the CICIDS2017 dataset, a more recent and comprehensive dataset for evaluating network intrusion detection systems. The dataset contains many modern attacks, including DoS, DDoS, brute force, XSS, SQL injection, and infiltration. The authors describe the dataset generation process, which involved creating a controlled lab environment that closely resembles a real-world network infrastructure. They used tools and scripts to generate realistic benign traffic and attack scenarios. The dataset also includes a combination of manually labelled and time-based labelled data. The authors evaluate the dataset using different machine learning algorithms and demonstrate its effectiveness in detecting various types of attacks.
+
+Table~\ref{tab:cicids2017_breakdown} shows the breakdown of classes in the CICIDS2017 dataset.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|} \hline 
+    \textbf{Class} & \textbf{Count} \\ \hline 
+    Benign & 908,528 \\ \hline 
+    Botnet & 745 \\ \hline 
+    DDoS & 51,234 \\ \hline 
+    DoS GoldenEye & 4,189 \\ \hline 
+    DoS Hulk & 91,856 \\ \hline 
+    DoS Slowhttptest & 2,191 \\ \hline 
+    DoS slowloris & 2,355 \\ \hline 
+    FTP-Patator & 3,184 \\ \hline 
+    Heartbleed & 6 \\ \hline 
+    Infiltration & 18 \\ \hline 
+    PortScan & 63,633 \\ \hline 
+    SSH-Patator & 2,342 \\ \hline 
+    Web Attack Brute Force & 601 \\ \hline 
+    Web Attack Sql Injection & 9 \\ \hline 
+    Web Attack XSS & 260 \\ \hline
+    \end{tabular}
+    \caption{CICIDS2017 Dataset Class Breakdown}\label{tab:cicids2017_breakdown}
+\end{table}
+
+Comparing the two datasets, it is evident that botnet attacks in the CTU13 dataset share similar characteristics with various attack types in the CICIDS2017 dataset, such as DDoS/DoS attacks, Web attacks, and Bot attacks. These similarities in attack structure and behaviour suggest that machine learning models trained on the CICIDS2017 dataset may be transferable to detecting botnet attacks in the CTU13 dataset.
 
 Several studies have utilised these datasets to develop and evaluate network intrusion detection systems. Chowdhury et al.~\cite{chowdhury2017botnet} proposed a graph-based approach for botnet detection using the CTU13 dataset. They constructed a graph representation of the communication patterns among botnet-infected hosts and applied graph analysis techniques to identify botnets. Their approach achieved high accuracy in detecting botnets and demonstrated the potential of leveraging graph-based features for botnet detection.
 
@@ -29,7 +67,6 @@ To address these limitations, Lashkari et al.~\cite{lashkari2017characterization
 However, Engelen et al.~\cite{engelen2021troubleshooting} identified limitations and issues in the CICFlowMeter tool that affect the quality of the extracted features in the CICIDS2017 dataset. They conducted an in-depth dataset analysis and discovered problems related to flow construction, feature extraction, and labelling. They proposed improvements to the CICFlowMeter tool and generated a revised version of the dataset to address these limitations, enhancing the reliability and utility of the dataset for intrusion detection research.
 
 The importance of using representative and unbiased datasets for training machine learning models in network intrusion detection is emphasised by Sommer and Paxson~\cite{sommer2010outside}. They highlight the challenges posed by the dynamic nature of network traffic and the constant evolution of attack patterns, which can impact the long-term performance of the trained models. Buczak and Guven~\cite{buczak2015survey} provide a comprehensive survey of machine learning and data mining methods for cyber security intrusion detection. They discuss the considerations and challenges in applying machine learning techniques to network intrusion detection, including selecting appropriate algorithms, feature engineering, and model evaluation.
-
 \section{Machine Learning Classifiers}\label{sec:classifiers}
 
 Machine learning classifiers have been widely used in network intrusion detection systems to identify malicious activities and automatically distinguish them from benign traffic. Random Forest (RF) and Support Vector Machine (SVM) are popular classifiers with promising results in this domain.
