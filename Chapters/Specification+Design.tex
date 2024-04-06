@@ -1,239 +1,116 @@
 \chapter{Specification \& Design}
 
-This chapter outlines the design and specification of the experiments conducted in this research, focusing on three main classifiers: Dummy Classifier, Random Forest Classifier, and Support Vector Machine Classifier. Based on the literature review, the paper designed the experimental setup to address the following key issues:
+This chapter outlines the experiments conducted in this dissertation, focusing on three classifiers: the Dummy Classifier, the Random Forest Classifier, and the Support Vector Machine Classifier. The experimental setup has been designed based on a thorough literature review to address the following research questions:
 
 \begin{enumerate}
-\item The need for assessing the transferability and generalisability of machine learning models across different datasets in the context of network intrusion detection~\cite{sommer2010outside, buczak2015survey}.
-\item The importance of considering dataset biases and the representativeness of training data when developing and evaluating intrusion detection systems~\cite{sommer2010outside, engelen2021troubleshooting}.
-\item The potential of explainable AI techniques, such as SHAP, to provide insights into the decision-making process of machine learning models and identify the most relevant features for detecting specific types of attacks~\cite{warnecke2020evaluating, amarasinghe2018toward, mane2021explaining}.
+\item[\textbf{RQ1}] How well do machine learning models trained on one dataset transfer and generalise to another dataset in the context of network intrusion detection?
+\item[\textbf{RQ2}] What is the impact of dataset biases and representativeness on the performance of machine learning-based intrusion detection systems?
+\item[\textbf{RQ3}] How can explainable AI techniques, such as SHAP, provide insights into the transferability of learned patterns and the most relevant features for detecting specific types of attacks across different datasets?
 \end{enumerate}
 
-The paper chose the CTU13 and CICIDS2017 datasets as they contain specific types of attacks and possess distinct properties that make them suitable for our research.CTU13 consists of real botnet traffic captured in a controlled environment~\cite{garcia2014empirical}, while CICIDS2017 is a more recent and comprehensive dataset designed for evaluating network intrusion detection systems, containing a wide range of modern attacks~\cite{sharafaldin2018toward}. By training models on CICIDS2017 and testing them on CTU13, this study aims to assess the transferability of learned patterns and features from a synthetic dataset to a real-world scenario, addressing the first identified issue.
+The CTU13 and CICIDS2017 datasets are chosen for this dissertation as they contain specific types of attacks and possess distinct properties that make them suitable for addressing the research questions. CTU13 consists of real botnet traffic captured in a controlled environment~\cite{garcia2014empirical}, while CICIDS2017 is a more recent and comprehensive dataset designed for evaluating network intrusion detection systems, containing a wide range of modern attacks~\cite{sharafaldin2018toward}. By training models on CICIDS2017 and testing them on CTU13, this dissertation aims to assess the transferability of learned patterns and features from one dataset to another, addressing RQ1.
 
-To ensure uniformity and coherence across all datasets, we utilise the relabelCTU13.py and relabelCICIDS2017.py scripts during pre-processing. These scripts facilitate mapping dataset features to a standardised naming convention, promoting equitable comparisons and analysis. This approach effectively addresses the second concern surrounding dataset biases and representativeness.
+The relabelCTU13.py and relabelCICIDS2017.py scripts are utilised during pre-processing to ensure uniformity and coherence across all datasets. These scripts facilitate mapping dataset features to a standardised naming convention and removing features that only appear in one dataset (which would not be transferrable between datasets), promoting equitable comparisons and analysis. This approach effectively addresses RQ2 by mitigating the impact of dataset biases and representativeness.
 
-The evaluation metrics used in this research, such as confusion matrix, accuracy, precision, recall, and F1 score, comprehensively assess the classifiers' performance in network intrusion detection. Furthermore, the SHAP library is employed to interpret the trained models' predictions and provide insights into their decision-making process. It addresses the third identified issue regarding the potential of explainable AI techniques in intrusion detection.
+This dissertation comprehensively analyses network intrusion detection classifiers, utilising a range of evaluation metrics, including accuracy, recall, precision, the confusion matrix, and F1 score. Additionally, the SHAP library interprets the classifiers' predictions, offering valuable insights into their decision-making process. An essential aspect of this dissertation is the exploration of RQ3, where we utilise explainable AI techniques to uncover the transferability of learned patterns and identify critical features for detecting specific types of attacks across multiple datasets.
 
 A common practice in machine learning is to split data into training and testing sets using a 60/40 ratio. This approach ensures a fair data distribution between the two sets, which helps prevent overfitting and promotes unbiased testing. This partitioning ratio has been widely accepted in the field as it balances training and assessing models, as noted in a research survey by Buczak et al.~\cite{buczak2015survey}.
 
 Alternative designs and dataset selections were considered, such as using neural network-based classifiers (e.g., MLP and CNN) and other datasets. However, the focus on interpretability using SHAP and the comparative study by Belouch et al.~\cite{belouch2018performance} influenced the decision to use Random Forest and SVM classifiers. The combination of CICIDS2017 and CTU13 datasets aligns with the research objectives of assessing the effectiveness of machine learning classifiers in detecting botnet attacks and understanding the challenges and limitations of transferring learned patterns across datasets.
 
-The following sections provide detailed descriptions of the experimental setup for each classifier, including the purpose, dataset-specific considerations, and evaluation processes. By addressing the identified issues, providing the rationale for the selected approaches, and deriving the experimental design from the synthesis of relevant literature, this chapter lays the foundation for a comprehensive and rigorous investigation into the transferability and explainability of machine learning models for network intrusion detection.
+\section{Experimental Setup}\label{sec:ExperimentalSetup}
 
-\section{Dummy Classifier}\label{sec:DummyClassifier}
+The experimental setup consists of three classifiers: a Dummy Classifier, a Random Forest Classifier, and a Support Vector Machine Classifier. Each classifier is trained on the CICIDS2017 dataset and tested on both the CICIDS2017 and CTU13 datasets to assess its transferability and generalisation capabilities.
 
-\textbf{Purpose} The Dummy Classifier is a reference point for evaluating the efficacy of advanced classifiers like Random Forests and Support Vector Machines. If either of these classifiers fails to outperform the Dummy Classifier, it indicates that the model is not learning effectively from the data. The Dummy Classifier randomly assigns labels to the data, providing a baseline for comparison with more sophisticated models.
+\subsection{Data Pre-processing}\label{subsec:DataPreprocessing}
 
-\subsection{CTU13}\label{subsec:DummyClassifierCTU13}
+During the pre-processing stage, the datasets undergo relabeling using the relabelCTU13.py and relabelCICIDS2017.py scripts to ensure consistency and compatibility. Subsequently, the CICIDS2017 dataset is processed to generate binary and multi-class classification tasks. In contrast, we only process the CTU13 dataset to generate binary classification tasks, aiming to detect botnet attacks and benign traffic because it only includes botnet attacks, whereas CICIDS2017 contains various types of attacks.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing(Binary)};
-\node (dummyclassifier) [rectangle, draw, below=of pre-processing] {Dummy Classifier};
-\node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of trainedmodel] {Evaluation};
+\subsection{Training and Testing Split}\label{subsec:TrainingTestingSplit}
 
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
-\draw [->] (dummyclassifier) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{Dummy Classifier Flowchart for CTU13}\label{fig:DummyRandomFlowCTU13}
-\end{figure}
+We partitioned the datasets into training and testing sets to ensure precise results with a 60/40 ratio. Our team trained the classifiers using the training set from the CICIDS2017 dataset and subsequently tested them on both the testing set of the same dataset and the full CTU13 dataset. This approach allows us to evaluate the classifiers' effectiveness on the dataset we trained them on and their performance on a separate dataset.
 
-The experiment commences by utilising the raw PCAP files from the CTU13 dataset, which exclusively includes botnet attacks and benign traffic. Firstly, a tool to extract flows, such as CICFlowMeter~\cite{lashkari2017characterization}, converts the raw PCAP files into CSV files that the classifiers can process. Prior to analysis, the data undergoes pre-processing to ensure compatibility with CICIDS2017. This pre-processing step incorporates the relabelCTU13.py script to relabel the dataset, ensuring consistency with the CICIDS2017 dataset. The relabeling process maps the CTU13 dataset's features to match the naming convention used in CICIDS2017, enabling fair comparisons between the two datasets. Given CTU13's exclusive focus on botnet attacks, there is no need for additional relabelling steps to unify attack names for the classifiers to group them.
+\subsection{Evaluation Metrics}\label{subsec:EvaluationMetrics}
 
-After pre-processing, we divide the data into training and testing sets in a 60/40 proportion. The Dummy Classifier is trained on the training data (60\% of the dataset) and subsequently utilised to make predictions on the testing data (40\% of the dataset). The evaluation metrics include the confusion matrix, accuracy, precision, recall, and F1 score, comprehensively evaluating the classifier's effectiveness.
+Several metrics evaluate the classifiers' performance, including confusion matrix, accuracy, precision, recall, and F1 score. These metrics comprehensively assess the classifiers' effectiveness in detecting network intrusions and their ability to transfer learned patterns across datasets.
 
-\subsection{Binary CICIDS2017}\label{subsec:DummyClassifierBinaryCICIDS2017}
+\subsection{Explainable AI}\label{subsec:ExplainableAI}
+
+The SHAP library is utilised to interpret the predictions made by the trained classifiers and offer valuable insights into their decision-making process. We compute SHAP values for the Random Forest and Support Vector Machine classifiers to pinpoint the most significant features that aid in detecting particular types of attacks. This aspect of explainability is critical in comprehending the transferability of learned patterns and the essential attributes that differentiate between malicious and benign traffic, even across diverse datasets.
+
+\section{Classifier Configurations}\label{sec:ClassifierConfigurations}
+
+\subsection{Dummy Classifier}\label{subsec:DummyClassifier}
+
+\textbf{Purpose:} The Dummy Classifier serves as a baseline for evaluating the performance of the more advanced classifiers. It randomly assigns labels to the data, providing a reference point for comparison.
 
 \begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
-\node (dummyclassifier) [rectangle, draw, below=of pre-processing] {Dummy Classifier};
-\node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of trainedmodel] {Evaluation};
-
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
-\draw [->] (dummyclassifier) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{Dummy Classifier Flowchart for Binary CICIDS2017}\label{fig:DummyRandomFlowBinaryCICIDS2017}
+    \centering
+    \begin{tikzpicture}[node distance=1.5cm]
+    \node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
+    \node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing};
+    \node (dummyclassifier) [rectangle, draw, below=of pre-processing] {Dummy Classifier};
+    \node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Classifier};
+    \node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.5cm of trainedmodel] {Evaluation on CICIDS2017 Testing Set};
+    \node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.5cm of trainedmodel] {Evaluation on CTU13 Dataset};
+    
+    \draw [->] (dataset1) -- (pre-processing);
+    \draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
+    \draw [->] (dummyclassifier) -- (trainedmodel);
+    \draw [->] (trainedmodel) -| (evaluation1);
+    \draw [->] (trainedmodel) -| (evaluation2);
+    \end{tikzpicture}
+    \caption{Dummy Classifier Configuration}\label{fig:DummyClassifierConfig}
 \end{figure}
 
-The experiment conducted using the CICIDS2017 dataset has a structure that closely resembles the CTU13 experiment (\ref{subsec:DummyClassifierCTU13}), with some key differences. The pre-processing step involves relabeling the dataset to maintain consistency with the CTU13 dataset and converting the problem into a binary classification task, as detailed in the relabelCICIDS2017.py script. The training and testing data split, evaluation metrics, and overall process remain the same as in the CTU13 experiment.
+\subsection{Random Forest and SVM Classifiers}\label{subsec:RandomForest+SVMClassifier}
 
-\subsection{Multi-class CICIDS2017}\label{subsec:DummyClassifierMultiCICIDS2017}
+\textbf{Purpose:} The Random Forest and Support Vector Machine (SVM) classifiers are employed to evaluate the performance of more advanced machine learning models in detecting network intrusions. These classifiers are trained on the CICIDS2017 dataset and tested on both the CICIDS2017 testing set and the CTU13 dataset to assess their transferability and generalisation capabilities.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[node distance=1.5cm]
 \node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
-\node (dummyclassifier) [rectangle, draw, below=of pre-processing] {Dummy Classifier};
-\node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Model};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of trainedmodel] {Evaluation};
-
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
-\draw [->] (dummyclassifier) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{Dummy Classifier Flowchart for Multi-class CICIDS2017}\label{fig:DummyRandomFlowMultiCICIDS2017}
-\end{figure}
-
-The multi-class CICIDS2017 experiment follows a similar process to the binary CICIDS2017 experiment (\ref{subsec:DummyClassifierBinaryCICIDS2017}), with the main difference being the transformation of the dataset into a multi-class classification challenge during the pre-processing stage. The goal is to check if any different attack types in CICIDS2017 share similar flow structures with botnet attacks from CTU13. The training and testing data split, evaluation metrics, and overall process remain the same as in the previous experiments.
-
-\section{Random Forest Classifier}\label{sec:RandomForestClassifier}
-
-\textbf{Purpose} The Random Forest Classifier is an ensemble learning method that combines multiple decision trees to make predictions~\cite{hastie2009random}. It has advantages such as handling high-dimensional data, robustness to noise and outliers, and capturing complex feature interactions. Random Forest has shown promising results in intrusion detection tasks~\cite{farnaaz2016random, belouch2018performance}.
-
-\subsection{CTU13}\label{subsec:RandomForestClassifierCTU13}
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing(Binary)};
-\node (randomforest) [rectangle, draw, below=of pre-processing] {Random Forest Classifier};
-\node (trainedmodel) [rectangle, draw, below=of randomforest] {Trained Model};
+\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing};
+\node (classifier) [rectangle, draw, below=of pre-processing] {Random Forest/SVM Classifier};
+\node (trainedmodel) [rectangle, draw, below=of classifier] {Trained Classifier};
 \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+\node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.5cm of shap] {Evaluation on CICIDS2017 Testing Set};
+\node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.5cm of shap] {Evaluation on CTU13 Dataset};
 
 \draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (randomforest);
-\draw [->] (randomforest) -- (trainedmodel);
+\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (classifier);
+\draw [->] (classifier) -- (trainedmodel);
 \draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
+\draw [->] (shap) -| (evaluation1);
+\draw [->] (shap) -| (evaluation2);
 \end{tikzpicture}
-\caption{Random Forest Classifier Flowchart for CTU13}\label{fig:RandomForestFlowCTU13}
+\caption{Random Forest Classifier Configuration}\label{fig:RandomForest+SVMClassifierClassifierConfig}
 \end{figure}
 
-The Random Forest Classifier experiment on the CTU13 dataset follows a similar process to the Dummy Classifier experiment (\ref{subsec:DummyClassifierCTU13}), with the fundamental difference being the use of the Random Forest algorithm for classification. The pre-processing steps, training and testing data split, and evaluation metrics remain the same. We also use the SHAP library to explain the classifier's predictions.
+\section{Transferability Evaluation}\label{sec:TransferabilityEvaluation}
 
-\subsection{Binary CICIDS2017}\label{subsec:RandomForestBinaryCICIDS2017}
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
-\node (randomforest) [rectangle, draw, below=of pre-processing] {Random Forest Classifier};
-\node (trainedmodel) [rectangle, draw, below=of randomforest] {Trained Model};
-\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+To ensure the applicability of our findings, we took great care in constructing the experimental setup for our dissertation. Our goal was to assess the classifiers' ability to apply the learned patterns from the CICIDS2017 dataset to the CTU13 dataset. We recognise the significance of transferability and thus designed the setup to test the classifiers' capability to transfer their learned patterns. During the training process, the classifiers were trained on the CICIDS2017 dataset and assessed on its testing set and the entire CTU13 dataset.
 
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (randomforest);
-\draw [->] (randomforest) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{Random Forest Classifier Flowchart for Binary CICIDS2017}\label{fig:RandomForestFlowBinaryCICIDS2017}
-\end{figure}
+In order to assess the transferability of the classifiers, we consider the following performance metrics:
 
-The Random Forest Classifier experiment on the binary CICIDS2017 dataset is similar to the Dummy Classifier experiment on the binary CICIDS2017 dataset (\ref{subsec:DummyClassifierBinaryCICIDS2017}), with the main difference being the use of the Random Forest algorithm for classification. The pre-processing steps, training and testing data split, and evaluation metrics remain the same. We also use the SHAP library to explain the classifier's predictions.
+\begin{itemize}
+\item Accuracy: The overall correctness of the classifier's predictions on the target dataset.
+\item Precision: The proportion of true positive predictions among all positive predictions.
+\item Recall: The proportion of true positive predictions among all real positive instances.
+\item F1 score: The harmonic mean of precision and recall, providing a balanced measure of the classifier's performance.
+\end{itemize}
 
-\subsection{Multi-class CICIDS2017}\label{subsec:RandomForestMultiCICIDS2017}
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
-\node (randomforest) [rectangle, draw, below=of pre-processing] {Random Forest Classifier};
-\node (trainedmodel) [rectangle, draw, below=of randomforest] {Trained Model};
-\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+Calculating these metrics for each classifier on both the CICIDS2017 testing set and the CTU13 dataset enables evaluation of the transferability of the learned patterns. A classifier that maintains high-performance metrics on both datasets demonstrates good transferability, whereas a significant drop in performance on the CTU13 dataset indicates limited transferability.
 
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (randomforest);
-\draw [->] (randomforest) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{Random Forest Classifier Flowchart for Multi-class CICIDS2017}\label{fig:RandomForestFlowMultiCICIDS2017}
-\end{figure}
+Furthermore, the SHAP values generated through the explainable AI analysis provide valuable insights into the essential attributes that facilitate the identification of distinct attack types across a range of datasets. By carefully examining the consistency of the most significant features across these datasets, we can assess the applicability of the acquired patterns. The SHAP values obtained through the explainable AI analysis also offer crucial information on the features that contribute the most to detecting particular attack types across various datasets. By thoroughly examining the top-ranked features' consistency across datasets, we can further evaluate the transferability of the learned patterns.
 
-The multi-class CICIDS2017 dataset Random Forest Classifier experiment follows a similar process to the multi-class CICIDS2017 Dummy Classifier experiment (\ref{subsec:DummyClassifierMultiCICIDS2017}), with the main difference being the use of the Random Forest algorithm for classification. The goal is to investigate if the Random Forest Classifier can learn patterns from various attack types in CICIDS2017 that are similar to botnet attacks in CTU13. We use the SHAP library to explain and evaluate the performance using the same metrics.
+\section{Summary}\label{sec:Summary}
 
-\section{Support Vector Machine Classifier}\label{sec:SVMClassifier}
+This chapter presents the specification and design of the experiments conducted in this dissertation, focusing on three classifiers: a Dummy Classifier, a Random Forest Classifier, and a Support Vector Machine Classifier. The experimental setup addresses three key research questions related to the transferability and generalisation of machine learning models, the impact of dataset biases, and the insights provided by explainable AI techniques in the context of network intrusion detection.
 
-\textbf{Purpose} The Support Vector Machine (SVM) Classifier is a widely used algorithm in intrusion detection tasks~\cite{cortes1995support, scholkopf2002learning}. SVM aims to find the optimal hyperplane that maximally separates different classes in a high-dimensional feature space. It can handle both linear and non-linear classification tasks using kernel functions and is known for its ability to generalise well, even with limited training data~\cite{kim2003network, teng2017svm}.
+We chose the CTU13 and CICIDS2017 datasets for their distinct properties and the presence of specific types of attacks. The data pre-processing step involves relabeling the datasets to ensure consistency and compatibility, while the training and testing split follows a 60/40 ratio. The classifiers are trained on the CICIDS2017 dataset and tested on both the CICIDS2017 testing set and the entire CTU13 dataset to evaluate their transferability.
 
-\subsection{CTU13}\label{subsec:SVMClassifierCTU13}
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CTU13 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing(Binary)};
-\node (SVM) [rectangle, draw, below=of pre-processing] {SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of SVM] {Trained Model};
-\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
+We assess the classifiers' performance using various evaluation metrics, including accuracy, precision, recall, and F1 score. The SHAP library is employed to interpret the predictions of the trained classifiers and identify the most relevant features contributing to the detection of specific types of attacks across different datasets.
 
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (SVM);
-\draw [->] (SVM) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{SVM Classifier Flowchart for CTU13}\label{fig:SVMFlowCTU13}
-\end{figure}
-
-The SVM Classifier experiment on the CTU13 dataset follows a similar process to the Random Forest Classifier experiment on the CTU13 dataset (\ref{subsec:RandomForestClassifierCTU13}), with the main difference being the use of the SVM algorithm for classification. The pre-processing steps, training and testing data split, and evaluation metrics remain the same. We also use the SHAP library to explain the classifier's predictions.
-
-\subsection{Binary CICIDS2017}\label{subsec:SVMClassifierBinaryCICIDS2017}
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing (Binary)};
-\node (SVM) [rectangle, draw, below=of pre-processing] {SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of SVM] {Trained Model};
-\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
-
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (SVM);
-\draw [->] (SVM) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{SVM Classifier Flowchart for Binary CICIDS2017}\label{fig:SVMFlowBinaryCICIDS2017}
-\end{figure}
-
-The SVM Classifier experiment on the binary CICIDS2017 dataset is similar to the Random Forest Classifier experiment on the binary CICIDS2017 dataset (\ref{subsec:RandomForestBinaryCICIDS2017}), with the main difference being the use of the SVM algorithm for classification. The pre-processing steps, training and testing data split, and evaluation metrics remain the same. We also use the SHAP library to explain the classifier's predictions.
-
-\subsection{Multi-class CICIDS2017}\label{subsec:SVMClassifierMultiCICIDS2017}
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing (Multi-class)};
-\node (SVM) [rectangle, draw, below=of pre-processing] {SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of SVM] {Trained Model};
-\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation) [rectangle, rounded corners, text centered, draw=black, below=of shap] {Evaluation};
-
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (SVM);
-\draw [->] (SVM) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -- (evaluation);
-\draw [->] (pre-processing) -- node[anchor=south, xshift=1cm] {Testing Data (40\%)} ([xshift=1cm]pre-processing.east) |- ([xshift=1cm]trainedmodel.east) -- (trainedmodel);
-\end{tikzpicture}
-\caption{SVM Classifier Flowchart for Multi-class CICIDS2017}\label{fig:SVMFlowMultiCICIDS2017}
-\end{figure}
-
-The SVM Classifier experiment on the multi-class CICIDS2017 dataset mirrors the process employed in the Random Forest Classifier experiment on the same dataset (\ref{subsec:RandomForestMultiCICIDS2017}), with the main difference being the use of the SVM algorithm for classification. The objective is to investigate whether the SVM Classifier can detect resemblances in the flow structures of different attack categories in CICIDS2017 and botnet attacks in CTU13. We use the SHAP library to explain the most relevant features and rely on the same performance metrics for evaluation.
+The evaluation of transferability is of immense importance to this dissertation. We utilise quality metrics and SHAP values to assess the classifiers' proficiency in transferring learned patterns from CICIDS2017 to CTU13. By analysing the consistency of the top-ranking features and comparing the classifiers' performance on both datasets, we can gauge the transferability of the learned patterns.

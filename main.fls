@@ -668,6 +668,11 @@ INPUT Chapters/Specification+Design.tex
 INPUT ./Chapters/Specification+Design.tex
 INPUT Chapters/Specification+Design.tex
 INPUT /usr/share/texmf/fonts/tfm/public/lm/rm-lmbx12.tfm
+INPUT /usr/share/texmf/tex/latex/lm/ts1lmr.fd
+INPUT /usr/share/texmf/tex/latex/lm/ts1lmr.fd
+INPUT /usr/share/texmf/tex/latex/lm/ts1lmr.fd
+INPUT /usr/share/texmf/tex/latex/lm/ts1lmr.fd
+INPUT /usr/share/texmf/fonts/tfm/public/lm/ts1-lmr10.tfm
 INPUT ./Chapters/Implementation.tex
 INPUT ./Chapters/Implementation.tex
 INPUT ./Chapters/Implementation.tex
@@ -739,6 +744,7 @@ INPUT ./Chapters/Conclusion.aux
 INPUT Chapters/Conclusion.aux
 INPUT Chapters/Conclusion.aux
 INPUT /usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc
+INPUT /usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmr10.pfb
