@@ -8,9 +8,9 @@ We conduct three main experiements in this dissertation, with each experiment be
 
 \subsection{Pre-Processing}\label{subsec:pre-processing}
 
-Before any classifiers can be trained, it is essential that the data being fed into them is processed correctly, after all, a classifier is only as good as the quality of the data it was trained on. This makes the preprocessing stage one of the most important, since any issues with the data at this early stage can have a major effect on the final results of each experiment.
+Before any classifiers can be trained, it is essential that the data being fed into them is processed correctly, after all, a classifier is only as good as the quality of the data it was trained on. This makes the preprocessing stage one of the most important, since any issues with the data at this early stage can have a major effect on the final results of each experiment, while also being one of the harder issues to diagnose, since no errors would arise will training the classifiers, only when checking performance metrics, and it would then take some trial and error to debug any issues.
 
-
+The relevant code for the relabelling scripts of both datasets is available in~\ref{subsec:relabelCICIDS2017.py} and~\ref{subsec:relabelCTU13.py}. In order to implement the scripts, a manual review of the data was conducted to identify overlapping features, as well as features that were only available in one of the datasets. Keeping features only available in one dataset would only lead to overfitting, since the existence of the feature would not be useful when the classifier is being tested on the other relevant dataset in the experiment, hence the removal. As well as removing features that would not be helpful for transferablity and generalisation, the preprocessing stage also needs to make the class labels match between both datasets, by default, CTU13's classes are labelled as `0' for benign traffic and `1' for malicous traffic, since we know that CTU13 only contains botnet attacks, and we want the labelling to transfer over to the CICIDS2017 dataset, we change the labels from `0' to `Benign' and `1' to `Botnet'. Doing this lets the classifiers know that this data is of the same class, therefore increasing the performance of the classifiers.
 
 
 
