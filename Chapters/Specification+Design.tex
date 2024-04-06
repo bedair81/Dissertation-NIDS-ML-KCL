@@ -51,8 +51,8 @@ The SHAP library is utilised to interpret the predictions made by the trained cl
     \node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing};
     \node (dummyclassifier) [rectangle, draw, below=of pre-processing] {Dummy Classifier};
     \node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Classifier};
-    \node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.5cm of trainedmodel] {Evaluation on CICIDS2017 Testing Set};
-    \node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.5cm of trainedmodel] {Evaluation on CTU13 Dataset};
+    \node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.2cm of trainedmodel] {Evaluation on CICIDS2017 Testing Set};
+    \node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.2cm of trainedmodel] {Evaluation on CTU13 Dataset};
     
     \draw [->] (dataset1) -- (pre-processing);
     \draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
@@ -75,8 +75,8 @@ The SHAP library is utilised to interpret the predictions made by the trained cl
 \node (classifier) [rectangle, draw, below=of pre-processing] {Random Forest/SVM Classifier};
 \node (trainedmodel) [rectangle, draw, below=of classifier] {Trained Classifier};
 \node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.5cm of shap] {Evaluation on CICIDS2017 Testing Set};
-\node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.5cm of shap] {Evaluation on CTU13 Dataset};
+\node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.2cm of shap] {Evaluation on CICIDS2017 Testing Set};
+\node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.2cm of shap] {Evaluation on CTU13 Dataset};
 
 \draw [->] (dataset1) -- (pre-processing);
 \draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (classifier);
