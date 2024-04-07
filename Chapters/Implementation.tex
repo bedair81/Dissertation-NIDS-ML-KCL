@@ -1,21 +1,125 @@
 \chapter{Implementation}
 
-The following chapter delves into the details of the experiment's execution. In Section~\ref{sec:experimental-setup}, we provide a comprehensive description of the experimental setup, including an overview of the datasets, their usage in each classifier, and the overall design of the experiment. Section~\ref{sec:package-implementation} explores the implementation of the various packages, accompanied by code excerpts that highlight the essential functions of each component.
+This chapter provides a comprehensive overview of the experiments conducted in this dissertation, detailing the experimental setup, dataset usage, and the design of each experiment. The implementation of key package modules is also explored, accompanied by relevant code excerpts highlighting essential functionality.
 
 \section{Experimental Setup}\label{sec:experimental-setup}
 
-We conduct three main experiements in this dissertation, with each experiment being split into a futher 3 subcategories. This section explains the setup for each experiment, highlighting the differnences in each and the reasoning behind the choices made.
+The experiments in this dissertation involve training and evaluating three classifiers: a Dummy Classifier, a Random Forest Classifier, and a Support Vector Machine (SVM) Classifier. Each classifier is trained on the CICIDS2017 dataset~\cite{sharafaldin2018toward} and tested on both the CICIDS2017 and CTU13~\cite{garcia2014empirical} datasets to assess transferability and generalization capabilities.
 
-\subsection{Pre-Processing}\label{subsec:pre-processing}
+\subsection{Data Pre-processing}\label{subsec:pre-processing}
 
-Before any classifiers can be trained, it is essential that the data being fed into them is processed correctly, after all, a classifier is only as good as the quality of the data it was trained on. This makes the preprocessing stage one of the most important, since any issues with the data at this early stage can have a major effect on the final results of each experiment, while also being one of the harder issues to diagnose, since no errors would arise will training the classifiers, only when checking performance metrics, and it would then take some trial and error to debug any issues.
+Proper data preprocessing is crucial for ensuring the effectiveness of the trained classifiers. The relabelling scripts, \texttt{relabelCICIDS2017.py} (Section~\ref{subsec:relabelCICIDS2017.py}) and \texttt{relabelCTU13.py} (Section~\ref{subsec:relabelCTU13.py}), standardize feature names and class labels across the datasets. This process involves mapping dataset features to a consistent naming convention, removing features unique to one dataset to avoid overfitting, and ensuring class labels are compatible. For example, the CTU13 dataset's binary labels '0' and '1' are converted to `Benign' and `Botnet' to match the CICIDS2017 labelling scheme.
 
-The relevant code for the relabelling scripts of both datasets is available in~\ref{subsec:relabelCICIDS2017.py} and~\ref{subsec:relabelCTU13.py}. In order to implement the scripts, a manual review of the data was conducted to identify overlapping features, as well as features that were only available in one of the datasets. Keeping features only available in one dataset would only lead to overfitting, since the existence of the feature would not be useful when the classifier is being tested on the other relevant dataset in the experiment, hence the removal. As well as removing features that would not be helpful for transferablity and generalisation, the preprocessing stage also needs to make the class labels match between both datasets, by default, CTU13's classes are labelled as `0' for benign traffic and `1' for malicous traffic, since we know that CTU13 only contains botnet attacks, and we want the labelling to transfer over to the CICIDS2017 dataset, we change the labels from `0' to `Benign' and `1' to `Botnet'. Doing this lets the classifiers know that this data is of the same class, therefore increasing the performance of the classifiers.
+\subsection{Experiment 1: Dummy Classifier}\label{subsec:baseline-performance}
 
+The Dummy Classifier from the scikit-learn library~\cite{pedregosa2011scikit} serves as a baseline for evaluating the performance of the more advanced classifiers. It predicts the most frequent class in the training data. Three Dummy Classifiers are trained: one on the CTU13 dataset for binary classification and two on the CICIDS2017 dataset for binary and multiclass classification. The Dummy Classifiers use the same features as the Random Forest and SVM classifiers, and their performance metrics (accuracy, precision, recall, and F1 score) provide a baseline for comparison.
 
+\subsection{Experiment 2: Random Forest Classifier}\label{subsec:random-forest-classifier}
+
+Random Forest, an ensemble learning method constructing multiple decision trees~\cite{hastie2009random}, is well-suited for handling large, high-dimensional datasets and unbalanced class distributions~\cite{farnaaz2016random}, which are common in network traffic classification. The CTU13 and CICIDS2017 datasets exhibit such class imbalances (Tables~\ref{tab:ctu13_breakdown} and~\ref{tab:cicids2017_breakdown}).
+
+Three Random Forest Classifiers are trained (\texttt{trainRandomForest.ipynb}, Section~\ref{subsec:trainRandomForest.ipynb}): one on the CTU13 dataset, and two on the CICIDS2017 dataset for binary and multiclass classification. The classifiers are evaluated on their respective datasets and then tested on the other dataset to assess transferability. The SHapley Additive exPlanations (SHAP) library~\cite{lundberg2017unified} is employed to explain the classifiers' predictions and identify the essential features.
+
+\subsection{Experiment 3: Support Vector Machine Classifier}\label{subsec:support-vector-machine-classifier}
+
+Support Vector Machines (SVMs) effectively handle large, high-dimensional, non-linear data~\cite{cortes1995support, scholkopf2002learning}. They have been successfully applied to network intrusion detection tasks~\cite{kim2003network, teng2017svm}.
+
+The experimental setup for the SVM Classifiers (\texttt{trainSVM.ipynb}, Section~\ref{subsec:trainSVM.ipynb}) mirrors that of the Random Forest Classifiers: we train three SVMs on the CTU13 and CICIDS2017 datasets, evaluated on their respective datasets, and tested on the other dataset. SHAP is used to interpret the SVM predictions and identify important features.
 
 \section{Package Implementation}\label{sec:package-implementation}
 
+\subsection{relabelCTU13.py}\label{subsec:relabelCTU13.py}
+
+\begin{algorithm}[H]
+    \caption{Relabeling CTU13 Dataset}\label{alg:relabelCTU13}
+    \begin{algorithmic}[1]
+    \Require Raw CTU13 dataset
+    \Ensure Preprocessed CTU13 dataset with consistent feature names and class labels
+    \State Import necessary libraries
+    \State Load the raw CTU13 dataset
+    \State Define a dictionary for mapping feature names
+    \For{each feature in the CTU13 dataset}
+    \If{the feature name exists in the mapping dictionary}
+    \State Rename the feature using the corresponding value from the dictionary
+    \EndIf
+    \EndFor
+    \State Replace the class labels '0' and '1' with `Benign' and `Botnet', respectively
+    \State Define the desired order of features based on the CICIDS2017 dataset
+    \State Reorder the features in the CTU13 dataset according to the desired order
+    \State Save the preprocessed CTU13 dataset
+    \end{algorithmic}
+\end{algorithm}
+
+Like \texttt{relabelCICIDS2017.py}~\ref{subsec:relabelCICIDS2017.py}, this script preprocesses the CTU13 dataset by renaming features, relabeling traffic classes, and reordering features to match the CICIDS2017 dataset's structure.
+
 \subsection{relabelCICIDS2017.py}\label{subsec:relabelCICIDS2017.py}
 
-\subsection{relabelCTU13.py}\label{subsec:relabelCTU13.py}
+\begin{algorithm}[H]
+    \caption{Relabeling CICIDS2017 Dataset}\label{alg:relabelCICIDS2017}
+    \begin{algorithmic}[1]
+    \Require Raw CICIDS2017 and preprocessed CTU13 datasets
+    \Ensure Preprocessed CICIDS2017 dataset with consistent feature names and class labels
+    \State Import necessary libraries
+    \State Load the raw CICIDS2017 dataset
+    \State Load the preprocessed CTU13 dataset
+    \State Define a dictionary for mapping feature names from CTU13 to CICIDS2017
+    \For{each feature in the CTU13 dataset}
+    \If{the feature name exists in the CICIDS2017 dataset}
+    \State Rename the feature in the CTU13 dataset using the corresponding value from the mapping dictionary
+    \EndIf
+    \EndFor
+    \State Change the label of benign traffic from '0' to `Benign'
+    \State Change the label of attack traffic from '1' to `Botnet'
+    \State Get the list of columns in the preprocessed CTU13 dataset
+    \State Get the common columns between the preprocessed CTU13 and raw CICIDS2017 datasets
+    \State Reorder and select the common columns in the CICIDS2017 dataset
+    \State Save the preprocessed CICIDS2017 dataset
+    \end{algorithmic}
+\end{algorithm}
+
+This script preprocesses the CICIDS2017 dataset by mapping feature names to match the CTU13 dataset, relabeling traffic classes, identifying common features, and reordering the CICIDS2017 features to align with the CTU13 dataset.
+
+\subsection{trainDummyClassifier.ipynb}\label{subsec:trainDummyClassifier.ipynb}
+
+\begin{algorithm}[H]
+    \caption{Training Dummy Classifiers}\label{alg:trainDummyClassifier}
+    \begin{algorithmic}[1]
+    \Require Preprocessed CTU13 and CICIDS2017 datasets
+    \Ensure Trained Dummy Classifiers and performance metrics
+    \State Import necessary libraries
+    \State Read preprocessed CTU13 and CICIDS2017 datasets
+    \State Define common features for training and testing
+    \For{dataset in [CTU13, CICIDS2017]}
+    \If{dataset is CTU13}
+    \State Train Dummy Classifier on CTU13 dataset (binary classification)
+    \ElsIf{dataset is CICIDS2017}
+    \State Train Dummy Classifier on CICIDS2017 dataset (binary classification)
+    \State Train Dummy Classifier on CICIDS2017 dataset (multiclass classification)
+    \EndIf
+    \EndFor
+    \For{each trained Dummy Classifier}
+    \State Test the classifier on its corresponding test set
+    \State Calculate performance metrics (accuracy, precision, recall, F1 score)
+    \State Save the trained classifier
+    \EndFor
+    \For{each CTU13-trained Dummy Classifier}
+    \State Test the classifier on the CICIDS2017 dataset
+    \State Calculate performance metrics (accuracy, precision, recall, F1 score)
+    \EndFor
+    \For{each CICIDS2017-trained Dummy Classifier}
+    \State Test the classifier on the CTU13 dataset
+    \State Calculate performance metrics (accuracy, precision, recall, F1 score)
+    \EndFor
+    \State Save performance metrics for analysis and comparison
+    \end{algorithmic}
+\end{algorithm}
+
+This Jupyter Notebook trains and evaluates the Dummy Classifiers on the CTU13 and CICIDS2017 datasets. The classifiers' performance is a baseline for comparing the Random Forest and SVM Classifiers.
+
+\subsection{trainRandomForest.ipynb}\label{subsec:trainRandomForest.ipynb}
+
+This Jupyter Notebook trains and evaluates the Random Forest Classifiers on the CTU13 and CICIDS2017 datasets. It tests the classifiers' transferability by evaluating their performance on the dataset for which they were not trained. The notebook also utilizes the SHAP library to explain the classifiers' predictions and identify important features.
+
+\subsection{trainSVM.ipynb}\label{subsec:trainSVM.ipynb}
+
+Similar to \texttt{trainRandomForest.ipynb}~\ref{subsec:trainRandomForest.ipynb}, this Jupyter Notebook trains and evaluates the SVM Classifiers on the CTU13 and CICIDS2017 datasets, tests their transferability, and employs SHAP to interpret the classifiers' predictions and identify important features.
