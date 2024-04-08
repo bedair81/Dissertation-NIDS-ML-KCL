@@ -2,12 +2,12 @@
 This chapter provides a comprehensive overview of the experiments conducted in this dissertation, detailing the experimental setup, dataset usage, and the design of each experiment. We also explore the implementation of key package modules, accompanied by relevant code excerpts highlighting essential functionality.
 
 \section{Experimental Setup}\label{sec:experimental-setup}
-The experiments in this dissertation involve training and evaluating three classifiers: a Dummy Classifier, a Random Forest Classifier, and a Support Vector Machine (SVM) Classifier. Each classifier is trained on the CICIDS2017 dataset~\cite{sharafaldin2018toward} and tested on both the CICIDS2017 and CTU13~\cite{garcia2014empirical} datasets to assess transferability and generalization capabilities.
+The experiments in this dissertation involve training and evaluating three classifiers: a Dummy Classifier, a Random Forest Classifier, and a Support Vector Machine (SVM) Classifier. Each classifier is trained on the CICIDS2017 dataset~\cite{sharafaldin2018toward} and tested on both the CICIDS2017 and CTU13~\cite{garcia2014empirical} datasets to assess transferability and generalisation capabilities.
 
 The choice of Random Forest and SVM classifiers is justified by their proven effectiveness in handling large, high-dimensional datasets and unbalanced class distributions~\cite{farnaaz2016random, teng2017svm}, which are common in network traffic classification. We employ the SHAP library~\cite{lundberg2017unified} for explainability due to its ability to provide insights into the decision-making process of machine learning models and identify important features.
 
 \subsection{Data Pre-processing}\label{subsec:pre-processing}
-Proper data preprocessing is crucial for ensuring the effectiveness of the trained classifiers. The relabelling scripts, \texttt{relabelCICIDS2017.py} (Section~\ref{subsec:relabelCICIDS2017.py}) and \texttt{relabelCTU13.py} (Section~\ref{subsec:relabelCTU13.py}), standardize feature names and class labels across the datasets. This process involves mapping dataset features to a consistent naming convention, removing features unique to one dataset to avoid overfitting, and ensuring class labels are compatible. For example, the CTU13 dataset's binary labels '0' and '1' are converted to `Benign' and `Botnet' to match the CICIDS2017 labelling scheme.
+Proper data preprocessing is crucial for ensuring the effectiveness of the trained classifiers. The relabelling scripts, \texttt{relabelCICIDS2017.py} (Section~\ref{subsec:relabelCICIDS2017.py}) and \texttt{relabelCTU13.py} (Section~\ref{subsec:relabelCTU13.py}), standardise feature names and class labels across the datasets. This process involves mapping dataset features to a consistent naming convention, removing features unique to one dataset to avoid overfitting, and ensuring class labels are compatible. For example, the CTU13 dataset's binary labels '0' and '1' are converted to `Benign' and `Botnet' to match the CICIDS2017 labelling scheme.
 
 During the preprocessing stage, several data quality issues and inconsistencies were encountered, such as missing values and differing feature names across datasets. We address these issues through careful data cleaning, imputation, and feature mapping techniques to ensure the datasets' compatibility and integrity.
 
@@ -28,7 +28,7 @@ The experimental setup for the SVM Classifiers (\texttt{trainSVM.ipynb}, Section
 A comprehensive testing and evaluation strategy is employed to ensure the robustness and reliability of the results. We assess the performance of the classifiers using various metrics, including accuracy, precision, recall, and F1 score. We calculate these metrics for each classifier on their respective test sets and when evaluated on the other dataset for transferability analysis.
 
 \subsection{Novelty and Originality}\label{subsec:novelty-originality}
-The novelty and originality of this research lie in the combination of the chosen datasets (CTU13 and CICIDS2017), classifiers (Random Forest and SVM), and the use of SHAP for explainability. This dissertation provides a unique perspective on network intrusion detection by investigating the transferability and generalization of machine learning models across different datasets.
+The novelty and originality of this research lie in the combination of the chosen datasets (CTU13 and CICIDS2017), classifiers (Random Forest and SVM), and the use of SHAP for explainability. This dissertation provides a unique perspective on network intrusion detection by investigating the transferability and generalisation of machine learning models across different datasets.
 
 The application of SHAP to interpret the predictions of the trained classifiers and identify the most relevant features for detecting specific types of attacks across datasets is a novel approach. This aspect of the research contributes to a deeper understanding of the transferability of learned patterns and the key characteristics distinguishing malicious and benign traffic.
 
@@ -207,7 +207,7 @@ Define common features for training and testing
 \end{algorithmic}
 \end{algorithm}
 
-This Jupyter Notebook trains and evaluates the Random Forest Classifiers on the CTU13 and CICIDS2017 datasets. It tests the classifiers' transferability by evaluating their performance on the dataset for which they were not trained. The notebook also utilizes the SHAP library to explain the classifiers' predictions and identify important features.
+This Jupyter Notebook trains and evaluates the Random Forest Classifiers on the CTU13 and CICIDS2017 datasets. It tests the classifiers' transferability by evaluating their performance on the dataset for which they were not trained. The notebook also utilises the SHAP library to explain the classifiers' predictions and identify important features.
 
 \subsection{trainSVM.ipynb}\label{subsec:trainSVM.ipynb}
 
