@@ -259,3 +259,74 @@ Define common features for training and testing
 \end{algorithm}
 
 Similar to \texttt{trainRandomForest.ipynb} (Section~\ref{subsec:trainRandomForest.ipynb}), this Jupyter Notebook trains and evaluates the SVM Classifiers on the CTU13 and CICIDS2017 datasets, tests their transferability, and employs SHAP to interpret the classifiers' predictions and identify important features.
+
+\subsection{plotData.py}\label{subsec:plotData.py}
+
+
+
+\subsection{User Guide}\label{subsec:user-guide}
+
+This user guide outlines the structure and requirements for running the provided source code, including file descriptions, directory structure, dataset sources, and setup instructions.
+
+\subsubsection{Source Code Files}
+
+The project includes the following Python scripts and Jupyter notebooks:
+
+\begin{enumerate}
+    \item \texttt{relabelCTU13.py} (Section~\ref{subsec:relabelCTU13.py}): Script for relabeling the CTU-13 dataset.
+    \item \texttt{relabelCICIDS2017.py} (Section~\ref{subsec:relabelCICIDS2017.py}): Script for relabeling the CICIDS2017 dataset.
+    \item \texttt{trainDummyClassifier.ipynb} (Section~\ref{subsec:trainDummyClassifier.ipynb}): Notebook for training a dummy classifier.
+    \item \texttt{trainRandomForest.ipynb} (Section~\ref{subsec:trainRandomForest.ipynb}): Notebook for training a RandomForest classifier.
+    \item \texttt{trainSVM.ipynb} (Section~\ref{subsec:trainSVM.ipynb}): Notebook for training an SVM classifier.
+    \item \texttt{plotData.py} (Section~\ref{subsec:plotData.py}): Script for plotting dataset statistics and results.
+\end{enumerate}
+
+\subsubsection{Directory Structure}
+
+The code is designed to work with the following directory structure:
+
+\begin{itemize}
+    \item A root directory containing the source code files.
+    \item Two subdirectories within the root:
+    \begin{itemize}
+        \item \texttt{CTU13} --- Contains the CTU-13 dataset files.
+        \item \texttt{CICIDS2017} --- Contains the CICIDS2017 dataset files.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Datasets}
+
+The dataset files are available from the following sources:
+
+\begin{itemize}
+    \item CTU-13 dataset:~\cite{CTU13download}
+    \item CICIDS2017 dataset:~\cite{CICIDS2017download}
+\end{itemize}
+
+\textbf{Note:} The CTU-13 CSV files are provided in the correct format. For CICIDS2017, download the dataset and use the CSV files in the \texttt{ML} directory.
+
+\subsubsection{Installation and Setup}
+
+Before running the code, ensure that your environment meets the following requirements:
+
+\begin{itemize}
+    \item IDE can run Python and Jupyter notebooks (e.g., Visual Studio Code with the necessary extensions).
+    \item Python version 3.12 (specifically, any 3.12.x version should suffice).
+    \item The following Python packages (compatible versions are listed):
+    \begin{itemize}
+        \item \texttt{pandas} (2.2.1)
+        \item \texttt{numpy} (1.26.4)
+        \item \texttt{scikit-learn} (1.4.1.post1)
+        \item \texttt{shap} (0.45.0)
+        \item \texttt{matplotlib} (3.8.3)
+        \item \texttt{ipywidgets} (8.1.2)
+    \end{itemize}
+\end{itemize}
+
+Install the required packages using the following command:
+
+\begin{verbatim}
+    pip install -r requirements.txt
+\end{verbatim}
+
+After setting up the directory structure and installing the necessary packages, run the code files in the order listed to preprocess the datasets, train classifiers, evaluate their performance, and generate visualisations of the data and results.
