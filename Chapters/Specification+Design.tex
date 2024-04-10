@@ -1,5 +1,10 @@
 \chapter{Specification \& Design}
 
+\tikzstyle{dataset} = [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [rectangle, rounded corners, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
 This chapter outlines the experiments conducted in this dissertation, focusing on three classifiers: the Dummy Classifier, the Random Forest Classifier, and the Support Vector Machine Classifier. The experimental setup has been designed based on a thorough literature review to address the following research questions:
 
 \begin{enumerate}
@@ -47,18 +52,18 @@ The SHAP library is utilised to interpret the predictions made by the trained cl
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=1.5cm]
-    \node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-    \node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing};
-    \node (dummyclassifier) [rectangle, draw, below=of pre-processing] {Dummy Classifier};
-    \node (trainedmodel) [rectangle, draw, below=of dummyclassifier] {Trained Classifier};
-    \node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.2cm of trainedmodel] {Evaluation on CICIDS2017 Testing Set};
-    \node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.2cm of trainedmodel] {Evaluation on CTU13 Dataset};
+    \node (dataset1) [dataset] {CICIDS2017 Dataset};
+    \node (pre-processing) [process, below=of dataset1] {Pre-processing};
+    \node (dummyclassifier) [process, below=of pre-processing] {Dummy Classifier};
+    \node (trainedmodel) [process, below=of dummyclassifier] {Trained Classifier};
+    \node (evaluation1) [decision, below left=0.2cm and -0.5cm of trainedmodel] {Evaluation on CICIDS2017 Testing Set};
+    \node (evaluation2) [decision, below right=0.2cm and -0.5cm of trainedmodel] {Evaluation on CTU13 Dataset};
     
-    \draw [->] (dataset1) -- (pre-processing);
-    \draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
-    \draw [->] (dummyclassifier) -- (trainedmodel);
-    \draw [->] (trainedmodel) -| (evaluation1);
-    \draw [->] (trainedmodel) -| (evaluation2);
+    \draw [arrow] (dataset1) -- (pre-processing);
+    \draw [arrow] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (dummyclassifier);
+    \draw [arrow] (dummyclassifier) -- (trainedmodel);
+    \draw [arrow] (trainedmodel) -| (evaluation1);
+    \draw [arrow] (trainedmodel) -| (evaluation2);
     \end{tikzpicture}
     \caption{Dummy Classifier Configuration}\label{fig:DummyClassifierConfig}
 \end{figure}
@@ -68,24 +73,24 @@ The SHAP library is utilised to interpret the predictions made by the trained cl
 \textbf{Purpose:} The Random Forest and Support Vector Machine (SVM) classifiers are employed to evaluate the performance of more advanced machine learning models in detecting network intrusions. These classifiers are trained on the CICIDS2017 dataset and tested on both the CICIDS2017 testing set and the CTU13 dataset to assess their transferability and generalisation capabilities.
 
 \begin{figure}[H]
-\centering
-\begin{tikzpicture}[node distance=1.5cm]
-\node (dataset1) [trapezium, trapezium left angle=70, trapezium right angle=110, text centered, draw=black] {CICIDS2017 Dataset};
-\node (pre-processing) [rectangle, draw, below=of dataset1] {Pre-processing};
-\node (classifier) [rectangle, draw, below=of pre-processing] {Random Forest/SVM Classifier};
-\node (trainedmodel) [rectangle, draw, below=of classifier] {Trained Classifier};
-\node (shap) [rectangle, draw, below=of trainedmodel] {SHAP};
-\node (evaluation1) [rectangle, rounded corners, text centered, draw=black, below left=0.2cm of shap] {Evaluation on CICIDS2017 Testing Set};
-\node (evaluation2) [rectangle, rounded corners, text centered, draw=black, below right=0.2cm of shap] {Evaluation on CTU13 Dataset};
-
-\draw [->] (dataset1) -- (pre-processing);
-\draw [->] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (classifier);
-\draw [->] (classifier) -- (trainedmodel);
-\draw [->] (trainedmodel) -- (shap);
-\draw [->] (shap) -| (evaluation1);
-\draw [->] (shap) -| (evaluation2);
-\end{tikzpicture}
-\caption{Random Forest Classifier Configuration}\label{fig:RandomForest+SVMClassifierClassifierConfig}
+    \centering
+    \begin{tikzpicture}[node distance=1.5cm]
+    \node (dataset1) [dataset] {CICIDS2017 Dataset};
+    \node (pre-processing) [process, below=of dataset1] {Pre-processing};
+    \node (classifier) [process, below=of pre-processing] {Random Forest/SVM Classifier};
+    \node (trainedmodel) [process, below=of classifier] {Trained Classifier};
+    \node (shap) [process, below=of trainedmodel] {SHAP};
+    \node (evaluation1) [decision, below left=0.2cm and -0.5cm of shap] {Evaluation on CICIDS2017 Testing Set};
+    \node (evaluation2) [decision, below right=0.2cm and -0.5cm of shap] {Evaluation on CTU13 Dataset};
+    
+    \draw [arrow] (dataset1) -- (pre-processing);
+    \draw [arrow] (pre-processing) -- node[anchor=east] {Training Data (60\%)} (classifier);
+    \draw [arrow] (classifier) -- (trainedmodel);
+    \draw [arrow] (trainedmodel) -- (shap);
+    \draw [arrow] (shap) -| (evaluation1);
+    \draw [arrow] (shap) -| (evaluation2);
+    \end{tikzpicture}
+    \caption{Random Forest and SVM Classifier Configuration}\label{fig:RandomForest+SVMClassifierClassifierConfig}
 \end{figure}
 
 \section{Transferability Evaluation}\label{sec:TransferabilityEvaluation}
