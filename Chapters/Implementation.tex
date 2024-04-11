@@ -262,9 +262,78 @@ Define common features for training and testing
 
 Similar to \texttt{trainRandomForest.ipynb} (Section~\ref{subsec:trainRandomForest.ipynb}), this Jupyter Notebook trains and evaluates the SVM Classifiers on the CTU13 and CICIDS2017 datasets using CUML's GPU-accelerated implementation, tests their transferability, and employs SHAP to interpret the classifiers' predictions and identify important features.
 
-\subsection{plotData.py}\label{subsec:plotData.py}
+\subsection{plotData.ipynb}\label{subsec:plotData.ipynb}
 
-
+\begin{algorithm}[ht]
+    \caption{Plotting Performance Metrics and Classifier Generalisability}\label{alg:plotData}
+    \begin{algorithmic}[1]
+    \Require%
+    Performance metrics for trained classifiers
+    \Ensure%
+    Plots comparing classifier performance and generalizability
+    \State%
+    Import necessary libraries
+    \State%
+    Define classifiers and metrics
+    \State%
+    Define data for classifier performance on the same dataset
+    \For{each classifier and dataset combination}
+    \State%
+    Store performance metrics in the corresponding data structure
+    \EndFor%
+    \State%
+    Set bar width and spacing
+    \State%
+    Create figures and axes with larger size
+    \State%
+    Set positions of bars on the x-axis
+    \For{each classifier}
+    \State%
+    Plot bars for performance metrics on each dataset
+    \EndFor%
+    \State%
+    Set x-tick labels and positions
+    \State%
+    Add labels and title with a larger font size
+    \State%
+    Add a grid for better readability
+    \State%
+    Add legend outside the plot
+    \State%
+    Adjust the layout to make space for the legend
+    \State%
+    Display the plot
+    
+    \State%
+    Define data for classifier generalizability across datasets
+    \For{each classifier and dataset transfer combination}
+    \State%
+    Store performance metrics in the corresponding data structure
+    \EndFor%
+    \State%
+    Set bar width and spacing
+    \State%
+    Create figures and axes with larger size
+    \State%
+    Set positions of bars on the x-axis
+    \For{each classifier and dataset transfer}
+    \State%
+    Plot bars for performance metrics on each dataset transfer
+    \EndFor%
+    \State%
+    Set x-tick labels and positions
+    \State%
+    Add labels and title with a larger font size
+    \State%
+    Add a grid for better readability
+    \State%
+    Add legend outside the plot
+    \State%
+    Adjust the layout to make space for the legend
+    \State%
+    Display the plot
+    \end{algorithmic}
+    \end{algorithm}
 
 \subsection{User Guide}\label{subsec:user-guide}
 
@@ -280,7 +349,7 @@ The project includes the following Python scripts and Jupyter notebooks:
     \item \texttt{trainDummyClassifier.ipynb} (Section~\ref{subsec:trainDummyClassifier.ipynb}): Notebook for training a dummy classifier.
     \item \texttt{trainRandomForest.ipynb} (Section~\ref{subsec:trainRandomForest.ipynb}): Notebook for training a RandomForest classifier.
     \item \texttt{trainSVM.ipynb} (Section~\ref{subsec:trainSVM.ipynb}): Notebook for training an SVM classifier.
-    \item \texttt{plotData.py} (Section~\ref{subsec:plotData.py}): Script for plotting dataset statistics and results.
+    \item \texttt{plotData.ipynb} (Section~\ref{subsec:plotData.ipynb}): Script for plotting dataset statistics and results.
 \end{enumerate}
 
 \subsubsection{Directory Structure}
