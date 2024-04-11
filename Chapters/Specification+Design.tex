@@ -95,15 +95,31 @@ The SHAP library is utilised to interpret the predictions made by the trained cl
 
 \section{Transferability Evaluation}\label{sec:TransferabilityEvaluation}
 
-To ensure the applicability of our findings, we took great care in constructing the experimental setup for our dissertation. Our goal was to assess the classifiers' ability to apply the learned patterns from the CICIDS2017 dataset to the CTU13 dataset. We recognise the significance of transferability and thus designed the setup to test the classifiers' capability to transfer their learned patterns. During the training process, the classifiers were trained on the CICIDS2017 dataset and assessed on its testing set and the entire CTU13 dataset.
+In evaluating the classifiers' transferability from the CICIDS2017 dataset to the CTU13 dataset, we emphasised the significance of measuring their capability to generalise the learned patterns. To assess this capacity, the classifiers were rigorously trained on the CICIDS2017 dataset and subsequently tested on both its testing set and the entirety of the CTU13 dataset.
 
-In order to assess the transferability of the classifiers, we consider the following performance metrics:
+To effectively evaluate the transferability of our classifiers, we utilised the following performance metrics, accompanied by their respective mathematical expressions:
 
 \begin{itemize}
-\item Accuracy: The overall correctness of the classifier's predictions on the target dataset.
-\item Precision: The proportion of true positive predictions among all positive predictions.
-\item Recall: The proportion of true positive predictions among all real positive instances.
-\item F1 score: The harmonic mean of precision and recall, providing a balanced measure of the classifier's performance.
+    \item \textbf{Accuracy}. Accuracy quantifies the proportion of true predictions, encompassing both positive and negative outcomes, in relation to the total number of observations. It is calculated as:
+    \begin{equation}
+    \text{Accuracy} = \frac{TP + TN}{TP + FP + TN + FN}
+    \end{equation}
+    where $TP$, $TN$, $FP$, and $FN$ represent the counts of true positives, true negatives, false positives, and false negatives, respectively.
+    
+    \item \textbf{Recall}. Recall, or the True Positive Rate, measures the proportion of actual positive cases correctly identified by the model, given by:
+    \begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN}
+    \end{equation}
+    
+    \item \textbf{Precision}. Precision assesses the fraction of correctly predicted positive observations out of all predicted positives, computed as:
+    \begin{equation}
+    \text{Precision} = \frac{TP}{TP + FP}
+    \end{equation}
+    
+    \item \textbf{F1 Score}. The F1 score integrates precision and recall into a single metric by taking their harmonic mean, thus providing a balanced measure of the classifier's precision and recall, calculated as:
+    \begin{equation}
+    F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+    \end{equation}
 \end{itemize}
 
 Calculating these metrics for each classifier on both the CICIDS2017 testing set and the CTU13 dataset enables evaluation of the transferability of the learned patterns. A classifier that maintains high-performance metrics on both datasets demonstrates good transferability, whereas a significant drop in performance on the CTU13 dataset indicates limited transferability.
