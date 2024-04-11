@@ -1,0 +1,328 @@
+\chapter{Algorithms}\label{chap:algorithms}
+
+\begin{algorithm}[ht]
+    \caption{Relabeling CTU13 Dataset}\label{alg:relabelCTU13}
+    \begin{algorithmic}[1]
+    \Require%
+    Raw CTU13 dataset
+    \Ensure%
+    Preprocessed CTU13 dataset with consistent feature names and class labels
+    \State%
+    Import necessary libraries
+    \Function{LoadDataset}{datasetName}%
+        \State%
+        Load dataset specified by datasetName
+        \State%
+        \Return%
+        Loaded dataset
+    \EndFunction%
+    \Function{RenameFeatures}{dataset, mappingDict}%
+        \For{each feature in dataset}%
+            \If{the feature name exists in the mapping dictionary}%
+                \State%
+                Rename the feature using the corresponding value from the dictionary
+            \EndIf%
+        \EndFor%
+    \EndFunction%
+    \Function{ReplaceLabels}{dataset, labelMappings}%
+        \For{each labelMapping in labelMappings}%
+            \State%
+            Replace the class label in dataset using labelMapping
+        \EndFor%
+    \EndFunction%
+    \Function{ReorderFeatures}{dataset, desiredOrder}%
+        \State%
+        Reorder the features in dataset according to desiredOrder
+        \State%
+        \Return%
+        Reordered dataset
+    \EndFunction%
+    \State%
+    rawCTU13 $\gets$ \Call{LoadDataset}{`CTU13'}
+    \State%
+    mappingDict $\gets$ Define a dictionary for mapping feature names
+    \State%
+    \Call{RenameFeatures}{rawCTU13, mappingDict}
+    \State%
+    labelMappings $\gets$ \{'0': `Benign', '1': `Botnet'\}
+    \State%
+    \Call{ReplaceLabels}{rawCTU13, labelMappings}
+    \State%
+    desiredOrder $\gets$ Define the desired order of features based on the CICIDS2017 dataset
+    \State%
+    preprocessedCTU13 $\gets$ \Call{ReorderFeatures}{rawCTU13, desiredOrder}
+    \State%
+    Save the preprocessedCTU13 dataset
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+    \caption{Relabeling CICIDS2017 Dataset}\label{alg:relabelCICIDS2017}
+    \begin{algorithmic}[1]
+    \Require%
+    Raw CICIDS2017 and preprocessed CTU13 datasets
+    \Ensure%
+    Preprocessed CICIDS2017 dataset with consistent feature names and class labels
+    \State%
+    Import necessary libraries
+    \Function{LoadDataset}{datasetName}%
+        \State%
+        Load dataset specified by datasetName
+        \State%
+        \Return%
+        Loaded dataset
+    \EndFunction%
+    \Function{RenameFeatures}{sourceDataset, targetDataset, mappingDict}%
+        \For{each feature in sourceDataset}%
+            \If{the feature name exists in targetDataset}%
+                \State%
+                Rename the feature in targetDataset using the corresponding value from mappingDict
+            \EndIf%
+        \EndFor%
+    \EndFunction%
+    \Function{ChangeLabels}{dataset, oldLabel, newLabel}%
+        \State%
+        Change the label in dataset from oldLabel to newLabel
+    \EndFunction%
+    \Function{PreprocessDataset}{sourceDataset, targetDataset}%
+        \State%
+        Get the list of columns in sourceDataset
+        \State%
+        Get the common columns between sourceDataset and targetDataset
+        \State%
+        Reorder and select the common columns in targetDataset
+        \State%
+        \Return%
+        Preprocessed dataset
+    \EndFunction%
+    \State%
+    rawCICIDS2017 $\gets$ \Call{LoadDataset}{`CICIDS2017'}
+    \State%
+    preprocessedCTU13 $\gets$ \Call{LoadDataset}{`CTU13'}
+    \State%
+    mappingDict $\gets$ Define a dictionary for mapping feature names from CTU13 to CICIDS2017
+    \State%
+    \Call{RenameFeatures}{preprocessedCTU13, rawCICIDS2017, mappingDict}
+    \State%
+    \Call{ChangeLabels}{rawCICIDS2017, '0', `Benign'}
+    \State%
+    \Call{ChangeLabels}{rawCICIDS2017, '1', `Botnet'}
+    \State%
+    preprocessedCICIDS2017 $\gets$ \Call{PreprocessDataset}{preprocessedCTU13, rawCICIDS2017}
+    \State%
+    Save the preprocessedCICIDS2017 dataset
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+    \caption{Training Dummy Classifiers}\label{alg:trainDummyClassifier}
+    \begin{algorithmic}[1]
+    \Require%
+    Preprocessed CTU13 and CICIDS2017 datasets
+    \Ensure%
+    Trained Dummy Classifiers and performance metrics
+    \State%
+    Import necessary libraries
+    \State%
+    Read preprocessed CTU13 and CICIDS2017 datasets
+    \State%
+    Define common features for training and testing
+    \Function{TrainDummy}{dataset, classificationType}%
+        \State%
+        Train Dummy Classifier on dataset (`classificationType`)
+        \State%
+        Save the trained classifier
+    \EndFunction%
+    \Function{EvaluateClassifier}{classifier}%
+        \State%
+        Load the trained classifier
+        \State%
+        Test the classifier on its corresponding test set as well as the other dataset
+        \State%
+        Calculate performance metrics (accuracy, precision, recall, F1 score) for each experiment
+        \State%
+        Save performance metrics for analysis and comparison
+    \EndFunction%
+    \For{dataset in [CTU13, CICIDS2017]}%
+        \If{dataset is CTU13}%
+            \State%
+            \Call{TrainDummy}{CTU13, `binary classification'}
+        \ElsIf{dataset is CICIDS2017}%
+            \State%
+            \Call{TrainDummy}{CICIDS2017, `binary classification'}
+            \State%
+            \Call{TrainDummy}{CICIDS2017, `multiclass classification'}
+        \EndIf%
+    \EndFor%
+    \For{each trained Dummy Classifier}%
+        \State%
+        \Call{EvaluateClassifier}{classifier}
+    \EndFor%
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+    \caption{Training Random Forest Classifiers}\label{alg:trainRandomForest}
+    \begin{algorithmic}[1]
+    \Require%
+    Preprocessed CTU13 and CICIDS2017 datasets
+    \Ensure%
+    Trained Random Forest Classifiers, performance metrics, and SHAP values
+    \State%
+    Import necessary libraries
+    \State%
+    Read preprocessed CTU13 and CICIDS2017 datasets
+    \State%
+    Define common features for training and testing
+    \Function{TrainRandomForest}{dataset, classificationType}%
+        \State%
+        Train Random Forest Classifier on dataset (`classificationType`) using CUML
+        \State%
+        Save the trained classifier
+    \EndFunction%
+    \Function{EvaluateClassifier}{classifier}%
+        \State%
+        Load the trained classifier
+        \State%
+        Test the classifier on its corresponding test set as well as the other dataset
+        \State%
+        Calculate performance metrics (accuracy, precision, recall, F1 score) for each experiment
+        \State%
+        Save performance metrics for analysis and comparison
+        \State%
+        Create a SHAP explainer object for the classifier using CUML
+        \State%
+        Calculate SHAP values for the test set
+        \State%
+        Save SHAP values for analysis and comparison
+    \EndFunction%
+    \For{dataset in [CTU13, CICIDS2017]}%
+        \If{dataset is CTU13}%
+            \State%
+            \Call{TrainRandomForest}{CTU13, `binary classification'}
+        \ElsIf{dataset is CICIDS2017}%
+            \State%
+            \Call{TrainRandomForest}{CICIDS2017, `binary classification'}
+            \State%
+            \Call{TrainRandomForest}{CICIDS2017, `multiclass classification'}
+        \EndIf%
+    \EndFor%
+    \For{each trained Random Forest Classifier}%
+        \State%
+        \Call{EvaluateClassifier}{classifier}
+    \EndFor%
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+    \caption{Training Support Vector Machine Classifiers}\label{alg:trainSVM}
+    \begin{algorithmic}[1]
+    \Require%
+    Preprocessed CTU13 and CICIDS2017 datasets
+    \Ensure%
+    Trained SVM Classifiers, performance metrics, and SHAP values
+    \State%
+    Import necessary libraries
+    \State%
+    Read preprocessed CTU13 and CICIDS2017 datasets
+    \State%
+    Define common features for training and testing
+    \Function{TrainSVM}{dataset, classificationType}%
+        \State%
+        Train SVM Classifier on dataset (classificationType) using CUML
+        \State%
+        Save the trained classifier
+    \EndFunction%
+    \Function{EvaluateClassifier}{classifier}%
+        \State%
+        Load the trained classifier
+        \State%
+        Test the classifier on its corresponding test set as well as the other dataset
+        \State%
+        Calculate performance metrics (accuracy, precision, recall, F1 score) for each experiment
+        \State%
+        Save performance metrics for analysis and comparison
+        \State%
+        Create a SHAP explainer object for the classifier using CUML
+        \State%
+        Calculate SHAP values for the test set
+        \State%
+        Save SHAP values for analysis and comparison
+    \EndFunction%
+    \For{dataset in [CTU13, CICIDS2017]}%
+        \If{dataset is CTU13}%
+            \State%
+            \Call{TrainSVM}{CTU13, `binary classification'}
+        \ElsIf{dataset is CICIDS2017}%
+            \State%
+            \Call{TrainSVM}{CICIDS2017, `binary classification'}
+            \State%
+            \Call{TrainSVM}{CICIDS2017, `multiclass classification'}
+        \EndIf%
+    \EndFor%
+    \For{each trained SVM Classifier}%
+        \State%
+        \Call{EvaluateClassifier}{classifier}
+    \EndFor%
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+    \caption{Plotting Performance Metrics and Classifier Generalisability}\label{alg:plotData}
+    \begin{algorithmic}[1]
+    \Require%
+    Performance metrics for trained classifiers
+    \Ensure%
+    Plots comparing classifier performance and generalisability
+    \Function{SetUpPlot}{}
+        \State%
+        Import necessary libraries
+        \State%
+        Define classifiers and metrics
+        \State%
+        Set bar width and spacing
+        \State%
+        Create figures and axes with larger sise
+        \State%
+        Set positions of bars on the x-axis
+    \EndFunction%
+    \Function{PlotMetrics}{data}
+        \For{each classifier in data}
+            \State%
+            Plot bars for performance metrics
+        \EndFor%
+        \State%
+        Set x-tick labels and positions
+        \State%
+        Add labels and title with a larger font size
+        \State%
+        Add a grid for better readability
+        \State%
+        Add legend outside the plot
+        \State%
+        Adjust the layout to make space for the legend
+        \State%
+        Display the plot
+    \EndFunction%
+    \State%
+    \Call{SetUpPlot}{}
+    \State%
+    Define data for classifier performance on the same dataset
+    \For{each classifier and dataset combination}
+        \State%
+        Store performance metrics in the corresponding data structure
+    \EndFor%
+    \State%
+    \Call{PlotMetrics}{classifier performance data}
+    \State%
+    \Call{SetUpPlot}{}
+    \State%
+    Define data for classifier generalisability across datasets
+    \For{each classifier and dataset transfer combination}
+        \State%
+        Store performance metrics in the corresponding data structure
+    \EndFor%
+    \State%
+    \Call{PlotMetrics}{classifier generalisability data}
+    \end{algorithmic}
+\end{algorithm}
