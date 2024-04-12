@@ -1,1 +1,29 @@
 \chapter{Conclusion and Future Work}\label{chap:conclusion-future-work}
+
+In this dissertation, we set out to investigate three key research questions related to the transferability and interpretability of machine learning models for network intrusion detection:
+
+\begin{enumerate}
+    \item How well do machine learning models trained on one dataset transfer and generalise to another dataset in the context of network intrusion detection?
+    \item What is the impact of dataset biases and representativeness on the performance of machine learning-based intrusion detection systems?
+    \item How can explainable AI techniques, such as SHAP, provide insights into the transferability of learned patterns and the most relevant features for detecting specific types of attacks across different datasets?
+\end{enumerate}
+
+We conducted experiments using the CTU13 and CICIDS2017 datasets to address these questions. We trained Random Forest and SVM classifiers on one dataset and evaluated their performance and transferability on the other. We also applied the SHAP explainable AI technique to interpret the models' predictions and identify the most essential features for detecting malicious traffic.
+
+Our results highlight the challenges of transferring machine learning models across network intrusion datasets. The Random Forest classifiers achieved strong performance when trained and tested on the same dataset, with accuracy, precision, recall, and F1 scores above 0.99 for binary classification on CTU13 and CICIDS2017. However, their effectiveness significantly degraded when we applied the models to a different dataset. For example, the Random Forest trained on CICIDS2017 and tested on CTU13 saw its accuracy drop to 0.58, precision to 0.65, recall to 0.02, and F1 score to 0.04.
+
+The SVM classifiers exhibited similar transferability issues, although they also struggled to learn effective decision boundaries even on their training datasets. These findings underscore the impact of dataset biases and the importance of representative training data for building robust intrusion detection models.
+
+The SHAP analysis provided valuable insights into the factors contributing to the transferability challenges. We observed notable shifts in feature importance when the models were applied to different datasets, indicating that the discriminative power of individual attributes can vary significantly depending on the data distribution. This variability makes it difficult for models to maintain effectiveness when deployed in new environments.
+
+One limitation of our study was the inability to obtain SHAP values for the SVM classifiers due to the high computational cost of the kernelExplainer objects. Running the regular SHAP library on a CPU led to performance issues and memory constraints, while the GPU-accelerated version also encountered memory limitations due to insufficient dedicated GPU memory. Exploring SVM interpretability with more powerful hardware could be an exciting direction for future work.
+
+In order to tackle the transferability challenges highlighted in this dissertation, further research could delve into various techniques such as transfer learning, domain adaptation, and robust feature engineering. Transfer learning methods, such as fine-tuning models on a subset of labelled target data, could aid in adapting learned patterns to novel environments. Moreover, unsupervised domain adaptation techniques could align feature distributions between source and target datasets, rendering the models more generalisable. Furthermore, developing feature learning methods that can identify dataset-invariant representations could enhance the transferability of intrusion detection models.
+
+Another promising direction for future work is the development of more sophisticated explainable AI techniques tailored to the cybersecurity domain. While SHAP provided useful insights into feature importance, methods that can capture the complex interactions and temporal dependencies in network traffic data are needed. Explainable AI techniques that provide more granular, contextualised explanations of model predictions could significantly enhance the interpretability and trustworthiness of intrusion detection systems.
+
+Furthermore, future research could explore integrating multiple data sources and modalities to build more comprehensive and robust intrusion detection models. Combining network traffic data with host-based logs, application-level events, and external threat intelligence could provide a more holistic view of the cybersecurity landscape and improve the accuracy and resilience of detection systems.
+
+In conclusion, this dissertation highlights the importance of evaluating model transferability and interpretability in network intrusion detection. Our experiments demonstrate the challenges of applying machine learning models trained on one dataset to another, emphasising the need for representative training data and techniques to address dataset biases. The SHAP analysis provides valuable insights into the factors contributing to these challenges, including shifts in feature importance and potential overfitting to dataset-specific patterns.
+
+We can work towards more practical and reliable machine learning-based network intrusion detection systems by advancing our understanding of these issues and developing more transferable and interpretable models. The results and insights presented in this dissertation lay the foundation for future research in this critical area, contributing to the ongoing efforts to safeguard our digital infrastructure against evolving cyber threats.
