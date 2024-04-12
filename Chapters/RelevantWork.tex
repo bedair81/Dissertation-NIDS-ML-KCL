@@ -56,7 +56,7 @@ Mane and Rao~\cite{mane2021explaining} used SHAP to explain the predictions of a
 
 This dissertation builds upon Mane and Rao’s findings by employing SHAP to interpret the predictions of Random Forest and SVM classifiers trained on the CICIDS2017 dataset. By investigating the transferability of the learned patterns and the most relevant features for detecting botnet attacks in the CTU13 dataset, this work extends the application of SHAP to the context of cross-dataset transferability. The novelty lies in using SHAP to understand the key characteristics that contribute to detecting specific types of attacks across different network environments, enhancing the interpretability and generalizability of intrusion detection models.
 
-\section{Challenges and Limitations}
+\section{Challenges and Limitations}\label{sec:ChallengesLimitations}
 
 While intrusion detection system developers and evaluators have frequently employed the CTU13 and CICIDS2017 datasets, it is necessary to recognise their limitations. Sommer and Paxson~\cite{sommer2010outside} have addressed the challenges of utilising synthetic datasets for network intrusion detection. These datasets may only partially capture the intricacy and variety of network traffic and require additional contextual information. Furthermore, the authors stress the necessity of more authentic and comprehensive datasets that consider the operational aspects and deployment hurdles of intrusion detection systems.
 
@@ -66,7 +66,7 @@ Moreover, Sommer and Paxson~\cite{sommer2010outside} highlight the importance of
 
 This dissertation considers the challenges associated with the dynamic nature of network traffic and the evolution of attack patterns. By investigating the transferability of machine learning models across different datasets and employing explainable AI techniques to gain insights into the decision-making process, this work aims to address these challenges and contribute to developing more robust and adaptable intrusion detection systems.
 
-\section{Summary and Positioning}
+\section{Summary and Positioning}\label{sec:PositioningSummary}
 
 This chapter has provided a comprehensive review of relevant work in machine learning-based network intrusion detection, focusing on botnet detection using the CTU13 dataset, intrusion detection using the CICIDS2017 dataset, and the application of Random Forests and Support Vector Machines for intrusion detection tasks. While previous studies have demonstrated the effectiveness of various machine learning algorithms in detecting network attacks, this dissertation explores a novel aspect by investigating machine learning models’ transferability and generalisation capabilities across different datasets.
 
