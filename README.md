@@ -1,12 +1,12 @@
 # Dissertation LaTeX Report
 
-This repository contains the LaTeX source for my dissertation titled "Transferability and Explainability of Machine Learning Models for Network Intrusion Detection." This work is being submitted to King's College London as part of the requirements for my 3rd-year project module, 6CCS3PRJ.
+This repository hosts the LaTeX source files for my dissertation, "Transferability and Explainability of Machine Learning Models for Network Intrusion Detection," submitted for the 3rd-year project module (6CCS3PRJ) at King's College London.
 
-The LaTeX template, provided by King's College London, structures the dissertation into comprehensive sections, ensuring adherence to the college's submission guidelines.
+The provided LaTeX template from King's College London organizes the document into several sections per the institution's submission guidelines.
 
-## Dissertation Structure
+## Dissertation Outline
 
-The template organizes the dissertation into the following sections:
+The LaTeX template divides the dissertation into the following sections:
 
 - Title Page
 - Abstract
@@ -14,49 +14,48 @@ The template organizes the dissertation into the following sections:
 - Acknowledgements
 - Introduction
 - Background
-- Relevant Work
-- Specification/Design
+- Review of Relevant Work
+- Specifications/Design
 - Implementation
 - Evaluation
-- Legal/Social/Ethical/Professional Issues
-- Conclusion and Future Work
+- Considerations on Legal/Social/Ethical/Professional Issues
+- Conclusion and Future Directions
 - References
 
-Each section is designed for detailed exposition on various aspects of the project, from conceptualization to future prospects.
+Each section elaborates on different dimensions of the project, from the initial concept to future directions.
 
-## Implementation Code
+## Code Repository
 
-For the practical implementation and code examples associated with this dissertation, please visit the GitHub repository: [Code-NIDS-ML-KCL](https://github.com/bedair81/Code-NIDS-ML-KCL). This repository contains all the scripts and Jupyter notebooks used to conduct the experiments and analyses discussed in this report.
-
+Visit the GitHub repository: [Code-NIDS-ML-KCL](https://github.com/bedair81/Code-NIDS-ML-KCL) for the code and examples used in the dissertation. This repository includes scripts and Jupyter notebooks for the experiments and analysis presented.
 
 ## Getting Started with Overleaf
 
-For ease of use and simplicity in document compilation, I recommend using [Overleaf](https://www.overleaf.com), a cloud-based LaTeX editor. Below are steps to get started with Overleaf for this project:
+Overleaf, a cloud-based LaTeX editor, simplifies document management and compilation. Below are instructions for setting up this project in Overleaf:
 
-### Setting Up on Overleaf
+### Initial Setup in Overleaf
 
-1. **Create an Overleaf Account**: Sign up for free at [Overleaf](https://www.overleaf.com/signup).
+1. **Create an Overleaf Account**: Register for free at [Overleaf](https://www.overleaf.com/signup).
 
-2. **Create a New Project**:
-   - Log in and click `New Project` at the top left of your dashboard.
-   - Choose `Upload Project` from the dropdown menu.
+2. **Start a New Project**:
+   - Log in and select `New Project` from the dashboard.
+   - Choose `Upload Project` from the options.
 
-3. **Import the Repository**:
-   - Download this repository as a ZIP file.
-   - Upload the ZIP file to Overleaf for automatic setup.
+3. **Upload the Repository**:
+   - Download the repository as a ZIP file.
+   - Upload it to Overleaf to set up your project.
 
 4. **Compile the Document**:
-   - Open the project in Overleaf and click `Recompile` to generate your PDF document.
+   - Open the project and select `Recompile` to generate the PDF.
 
-### Editing and Collaboration
+### Editing and Collaborative Features
 
-- **Editing**: Overleaf provides real-time document preview, aiding in immediate visual feedback as you edit.
-- **Collaboration**: Share your project with collaborators or advisors by using the `Share` button and sending the provided link.
+- **Editing**: Overleaf offers a real-time preview feature for immediate feedback while editing.
+- **Collaboration**: Use the `Share` button to send the project link to peers or advisors.
 
-## Using LaTeX Locally
+## Local LaTeX Setup
 
-For those preferring or needing to work offline, local LaTeX setups are supported. Installation guides for LaTeX distributions (TeX Live, MiKTeX, or MacTeX) and LaTeX editors are available on their respective websites.
+For offline work, LaTeX can be installed locally. Guides for installing LaTeX distributions (TeX Live, MiKTeX, MacTeX) and editors are available on their websites.
 
 ## Support
 
-Encountering issues or have questions about the LaTeX template? Feel free to open an issue in this repository.
+If you encounter any issues or have queries regarding the LaTeX template, please open an issue in this repository.
