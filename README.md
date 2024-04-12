@@ -24,6 +24,10 @@ The LaTeX template divides the dissertation into the following sections:
 
 Each section elaborates on different dimensions of the project, from the initial concept to future directions.
 
+## Full Report PDF
+
+The file `main.pdf` in this repository contains the complete dissertation report as submitted. You do not need to compile the LaTeX files unless you wish to make changes to the document.
+
 ## Code Repository
 
 Visit the GitHub repository: [Code-NIDS-ML-KCL](https://github.com/bedair81/Code-NIDS-ML-KCL) for the code and examples used in the dissertation. This repository includes scripts and Jupyter notebooks for the experiments and analysis presented.
