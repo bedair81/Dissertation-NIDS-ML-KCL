@@ -2,7 +2,7 @@
 
 This chapter provides a comprehensive overview of the experiments conducted in this dissertation, detailing the experimental setup, dataset usage, and the design of each experiment. We also explore the implementation of key package modules, accompanied by relevant code excerpts highlighting essential functionality.
 
-\section{Experiment Implementation}\label{sec:experimental-setup}
+\section{Experiment Implementation}\label{sec:ExperimentImplementation}
 The experiments in this dissertation involve training and evaluating three classifiers: a Dummy Classifier, a Random Forest Classifier, and a Support Vector Machine (SVM) Classifier. Each classifier is trained on the CICIDS2017 dataset~\cite{sharafaldin2018toward} and tested on both the CICIDS2017 and CTU13~\cite{garcia2014empirical} datasets to assess transferability and generalisation capabilities.
 
 Initially, we set up the experiments using sci-kit-learn's classifier implementations. However, due to the extensive training times required for the CPU-based models, we decided to switch to CUML's GPU-accelerated models~\cite{raschka2020machine}. The CUML library provides GPU-accelerated machine learning algorithms, enabling faster training and inference times. By leveraging the power of GPUs, the training process can be significantly accelerated, making it more feasible to train complex models on large datasets. The benefits of using CUML's GPU-accelerated models include reduced training times, improved scalability, and the ability to handle larger datasets efficiently.

@@ -22,7 +22,7 @@ Aksu and Aydin~\cite{aksu2018detecting} conducted a comparative study of differe
 
 This dissertation takes inspiration from Aksu and Aydin’s findings and employs Random Forest as one of the classifiers to investigate its transferability across datasets. By exploring the performance of Random Forest in detecting botnet attacks in the CTU13 dataset when trained on the CICIDS2017 dataset, this work contributes to understanding the robustness and adaptability of ensemble learning methods in the context of cross-dataset transferability.
 
-\section{Random Forest for Intrusion Detection}
+\section{Random Forest for Intrusion Detection}\label{sec:RandomForestIntrusion}
 
 Random Forest has been widely used for intrusion detection tasks. Farnaaz and Jabbar~\cite{farnaaz2016random} presented a model based on Random Forest and evaluated its performance on the NSL-KDD dataset. They performed feature selection using the Chi-square test to identify the most relevant features for intrusion detection and then trained the Random Forest classifier using the selected features. The proposed model demonstrated Random Forest’s effectiveness in detecting various types of network attacks.
 
@@ -32,7 +32,7 @@ Belouch et al.~\cite{belouch2018performance} applied Random Forest to the CICIDS
 
 This dissertation builds upon Belouch et al.’s findings by employing Random Forest as one of the classifiers and investigates its transferability to detect botnet attacks in a different dataset. By exploring the robustness and adaptability of the learned patterns across datasets, this work contributes to understanding the generalisation capabilities of Random Forest classifiers in the context of network intrusion detection.
 
-\section{Support Vector Machines for Intrusion Detection}
+\section{Support Vector Machines for Intrusion Detection}\label{sec:SVMIntrusion}
 
 Support Vector Machines (SVM) have been extensively utilised for intrusion detection tasks. Kabir et al.~\cite{kabir2017network} proposed an SVM-based intrusion detection system and evaluated its performance on the NSL-KDD dataset. They used a genetic algorithm for feature selection to identify the most discriminative features for intrusion detection. The authors also optimised the SVM parameters using grid search to improve the model’s performance. The proposed system showcased SVM’s effectiveness in detecting various types of network attacks.
 
@@ -42,7 +42,7 @@ Teng et al.~\cite{teng2017svm} applied SVM with different kernel functions for i
 
 This dissertation takes inspiration from Teng et al.’s findings and employs SVM as one of the classifiers to investigate its transferability in detecting botnet attacks across different datasets. By exploring the robustness and adaptability of the learned patterns, this work contributes to understanding the generalisation capabilities of SVM classifiers in the context of network intrusion detection.
 
-\section{Explainable AI Techniques for Intrusion Detection}
+\section{Explainable AI Techniques for Intrusion Detection}\label{sec:ExplainableAITechniques}
 
 Explainable AI techniques have gained attention in intrusion detection to provide insights into the decision-making process of machine learning models. Warnecke et al.~\cite{warnecke2020evaluating} evaluated various explanation methods for deep learning-based intrusion detection systems, including SHAP.\@ They applied SHAP to a convolutional neural network (CNN) trained on the NSL-KDD dataset and analysed the importance of different features in the model’s predictions. The authors demonstrated that SHAP can provide meaningful insights into the decision-making process of deep learning models and help identify the most influential features for detecting specific attack types.
 
