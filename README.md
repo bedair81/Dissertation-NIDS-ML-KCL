@@ -24,6 +24,11 @@ The template organizes the dissertation into the following sections:
 
 Each section is designed for detailed exposition on various aspects of the project, from conceptualization to future prospects.
 
+## Implementation Code
+
+For the practical implementation and code examples associated with this dissertation, please visit the GitHub repository: [Code-NIDS-ML-KCL](https://github.com/bedair81/Code-NIDS-ML-KCL). This repository contains all the scripts and Jupyter notebooks used to conduct the experiments and analyses discussed in this report.
+
+
 ## Getting Started with Overleaf
 
 For ease of use and simplicity in document compilation, I recommend using [Overleaf](https://www.overleaf.com), a cloud-based LaTeX editor. Below are steps to get started with Overleaf for this project:
