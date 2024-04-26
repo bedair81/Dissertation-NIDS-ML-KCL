@@ -26,7 +26,7 @@ Each section elaborates on different dimensions of the project, from the initial
 
 ## Full Report PDF
 
-The file `main.pdf` in this repository contains the complete dissertation report as submitted. You do not need to compile the LaTeX files unless you wish to make changes to the document.
+The file [main.pdf](main.pdf) in this repository contains the complete dissertation report as submitted. You do not need to compile the LaTeX files unless you wish to make changes to the document.
 
 ## Code Repository
 
