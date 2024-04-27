@@ -1,6 +1,6 @@
 # Dissertation LaTeX Report
 
-This repository hosts the LaTeX source files for my dissertation, "Transferability and Explainability of Machine Learning Models for Network Intrusion Detection," submitted for the 3rd-year project module (6CCS3PRJ) at King's College London.
+This repository hosts the LaTeX source files for my dissertation, "Transferability and Explainability of Machine Learning Models for Network Intrusion Detection" submitted for the 3rd-year project module (6CCS3PRJ) at King's College London.
 
 The provided LaTeX template from King's College London organizes the document into several sections per the institution's submission guidelines.
 
