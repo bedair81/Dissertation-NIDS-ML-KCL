@@ -1,43 +1,38 @@
 \chapter{Background}\label{chap:background}
 
-Section~\ref{sec:datasets} provides an overview of two widely used datasets in the field of network intrusion detection: the CTU13 dataset~\cite{garcia2014empirical} and the CICIDS2017 dataset~\cite{sharafaldin2018toward}. Researchers have extensively utilised these datasets to develop and evaluate machine learning-based NIDS.\@ Understanding the datasets' characteristics, strengths, and limitations used to train machine learning models is essential for designing robust and effective intrusion detection systems.
+This chapter provides essential context for understanding the datasets, machine learning classifiers, and explainable AI techniques used in this dissertation. Section~\ref{sec:datasets} overviews two benchmark datasets in network intrusion detection: CTU13~\cite{garcia2014empirical} and CICIDS2017~\cite{sharafaldin2018toward}. These datasets are widely employed to develop and evaluate machine learning-based Network Intrusion Detection Systems (NIDS). Understanding their characteristics, strengths, and limitations is crucial for designing robust and effective NIDS.
 
-Section~\ref{sec:classifiers} discusses two popular machine learning classifiers, Random Forest and Support Vector Machine, widely used in network intrusion detection systems. The strengths and limitations of these classifiers are highlighted, along with their performance on different datasets. Understanding the capabilities and trade-offs of the classifiers used in a machine learning NIDS is crucial for selecting appropriate models for intrusion detection.
+Section~\ref{sec:classifiers} discusses two prominent machine learning classifiers—Random Forest and Support Vector Machine (SVM)—commonly used in NIDS. Their strengths, limitations, and performance across different datasets are examined, highlighting the importance of selecting appropriate models for intrusion detection tasks.
 
-Section~\ref{sec:explainable} introduces explainable AI techniques, which aim to provide insights into the decision-making process of machine learning models. These techniques help us understand the factors that contribute to the predictions made by the models and offer interpretable explanations for their outputs. Understanding the importance of the features a model uses to predict benign or malicious network flows is essential for validating the reliability of machine learning models and gaining insights into their decision-making process.
+Section~\ref{sec:explainable} introduces explainable AI techniques, focusing on SHAP (SHapley Additive exPlanations)~\cite{lundberg2017unified}, which provides insights into the decision-making processes of machine learning models. These techniques are vital for validating model reliability and understanding the features that influence predictions of benign or malicious network flows.
 
 \section{CTU13 and CICIDS2017 Datasets}\label{sec:datasets}
 
-The availability of representative and labelled datasets is crucial for developing and evaluating machine learning-based network intrusion detection systems. Two widely used benchmark datasets in this domain are the CTU13 dataset~\cite{garcia2014empirical} and the CICIDS2017 dataset~\cite{sharafaldin2018toward}.
+Representative and labelled datasets are fundamental for developing and evaluating machine learning-based NIDS. The CTU13~\cite{garcia2014empirical} and CICIDS2017~\cite{sharafaldin2018toward} datasets are two widely used benchmarks in this domain.
 
-Garcia et al.~\cite{garcia2014empirical} introduced the CTU13 dataset, which contains real botnet traffic captured in a controlled environment. The dataset consists of 13 scenarios, each representing specific botnet behaviours such as port scanning, DDoS attacks, click fraud, and spam. The authors provide a detailed description of the dataset creation methodology, including the setup of the controlled environment, the use of actual botnet samples, and the labelling process based on the known behaviour of the captured botnets. The realistic nature of the CTU13 dataset and the variety of botnet scenarios it covers have made it a popular choice among researchers.
-
-Table~\ref{tab:ctu13_breakdown} shows the breakdown of classes in the CTU13 dataset.
+The CTU13 dataset, introduced by Garcia et al.~\cite{garcia2014empirical}, comprises real botnet traffic captured in a controlled environment. It includes 13 scenarios, each representing distinct botnet behaviours such as port scanning, DDoS attacks, click fraud, and spam. The dataset’s creation involved a detailed methodology, including the use of actual botnet samples and a labelling process based on known botnet behaviour. Its realistic nature and diverse botnet scenarios have made it a popular choice among researchers. Table~\ref{tab:ctu13_breakdown} presents the class distribution in CTU13.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{|l|c|} 
-    \hline
+    \begin{tabular}{lc}
+    \toprule
     \textbf{Class} & \textbf{Count} \\
-    \hline
+    \midrule
     Benign & 213,326 \\
-    \hline
     Botnet & 15,559 \\
-    \hline
+    \bottomrule
     \end{tabular}
     \caption{CTU13 Dataset Class Breakdown}\label{tab:ctu13_breakdown}
 \end{table}
 
-Sharafaldin et al.~\cite{sharafaldin2018toward} created the CICIDS2017 dataset, a more recent and comprehensive dataset for evaluating network intrusion detection systems. The dataset contains many modern attacks, including DoS, DDoS, brute force, XSS, SQL injection, and infiltration. The authors describe the dataset generation process, which involved creating a controlled lab environment resembling a real-world network infrastructure. They used tools and scripts to generate realistic benign traffic and attack scenarios. The dataset also includes a combination of manually labelled and time-based labelled data.
-
-Table~\ref{tab:cicids2017_breakdown} shows the breakdown of classes in the CICIDS2017 dataset.
+Sharafaldin et al.~\cite{sharafaldin2018toward} developed the CICIDS2017 dataset, a more recent and comprehensive resource for evaluating NIDS. It encompasses a variety of modern attacks, including DoS, DDoS, brute force, XSS, SQL injection, and infiltration. The dataset was generated in a controlled lab environment that mimics real-world network infrastructure, using tools and scripts to create realistic benign and attack traffic. It features both manually and time-based labelled data, as shown in Table~\ref{tab:cicids2017_breakdown}.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{|l|r|} 
-    \hline
+    \begin{tabular}{lr}
+    \toprule
     \textbf{Class} & \textbf{Count} \\
-    \hline
+    \midrule
     Benign & 908,528 \\
     Botnet & 745 \\
     DDoS & 51,234 \\
@@ -53,29 +48,27 @@ Table~\ref{tab:cicids2017_breakdown} shows the breakdown of classes in the CICID
     Web Attack Brute Force & 601 \\
     Web Attack SQL Injection & 9 \\
     Web Attack XSS & 260 \\
-    \hline
+    \bottomrule
     \end{tabular}
     \caption{CICIDS2017 Dataset Class Breakdown}\label{tab:cicids2017_breakdown}
 \end{table}
 
-Comparing the two datasets, it is evident that botnet attacks in the CTU13 dataset share similar characteristics with various attack types in the CICIDS2017 dataset, such as DDoS/DoS attacks, Web attacks, and Bot attacks. These similarities in attack structure and behaviour suggest that machine learning models trained on the CICIDS2017 dataset may be transferable to detecting botnet attacks in the CTU13 dataset.
-
-While the CTU13 and CICIDS2017 datasets have been widely used in intrusion detection research, it is crucial to acknowledge their limitations. Synthetic datasets may only partially capture the complexity and diversity of real-world network traffic and may need more crucial contextual information. More realistic and representative datasets that consider the operational aspects and deployment challenges of intrusion detection systems may be needed to fully evaluate the effectiveness of machine learning-based approaches.
+Comparing the datasets, botnet attacks in CTU13 share structural and behavioural similarities with several attack types in CICIDS2017, such as DDoS/DoS, web attacks, and bot attacks. These similarities suggest that machine learning models trained on CICIDS2017 may be transferable to detecting botnet attacks in CTU13. However, both datasets have limitations: synthetic datasets like CICIDS2017 may not fully capture the complexity and diversity of real-world traffic, lacking crucial contextual information. More representative datasets that reflect operational and deployment challenges are needed to fully assess machine learning-based NIDS.
 
 \section{Machine Learning Classifiers}\label{sec:classifiers}
 
-Machine learning classifiers have been widely used in network intrusion detection systems to identify malicious activities and automatically distinguish them from benign traffic. Random Forest (RF) and Support Vector Machine (SVM) are popular classifiers with promising results in this domain.
+Machine learning classifiers are integral to NIDS, automating the distinction between malicious and benign traffic. Random Forest (RF) and Support Vector Machine (SVM) are two widely adopted classifiers in this domain due to their effectiveness in handling complex, high-dimensional data.
 
-Random Forest is an ensemble learning method that combines multiple decision trees to make predictions~\cite{hastie2009random}. It constructs many decision trees during the training phase and outputs the majority vote of the individual trees for classification tasks. Random Forest has advantages such as handling high-dimensional data, robustness to noise and outliers, and capturing complex interactions among features.
+Random Forest, an ensemble method, combines multiple decision trees to produce a majority-vote classification~\cite{hastie2009random}. Its strengths include handling high-dimensional data, robustness to noise and outliers, and the ability to model complex feature interactions—key advantages for detecting diverse network intrusions.
 
-Support Vector Machine (SVM) is another widely used classifier in network intrusion detection. SVM aims to find the optimal hyperplane that maximally separates different classes in a high-dimensional feature space~\cite{cortes1995support}. It can handle both linear and non-linear classification tasks using kernel functions. SVM is known for its ability to generalise well, even with limited training data, making it suitable for network intrusion detection scenarios where labelled data may be scarce.
+Support Vector Machine (SVM) identifies the optimal hyperplane to separate classes in high-dimensional space~\cite{cortes1995support}. It excels in scenarios with limited labelled data, a common challenge in NIDS, and can manage both linear and non-linear classification tasks via kernel functions. SVM’s strong generalisation capabilities make it suitable for detecting novel attacks.
 
-The choice of a machine learning classifier depends on various factors, such as the dataset's characteristics, the nature of the attacks, and the computational resources available. It is crucial to consider the strengths and limitations of different classifiers and to evaluate their performance using relevant metrics when selecting an appropriate model for intrusion detection.
+The selection of a classifier depends on factors such as dataset characteristics, attack types, and computational resources. Evaluating classifiers using metrics like accuracy, precision, and recall is essential for choosing the most effective model for intrusion detection.
 
 \section{Explainable AI Techniques}\label{sec:explainable}
 
-While machine learning classifiers have shown promising results in network intrusion detection, their decision-making process is often considered a `black box', lacking transparency and interpretability. Explainable AI techniques aim to bridge this gap by providing insights into the reasoning behind the predictions made by these models.
+Despite their success, machine learning classifiers often operate as `black boxes,' offering limited insight into their decision-making processes. Explainable AI techniques address this by providing interpretable explanations for model predictions.
 
-SHAP (SHapley Additive exPlanations)~\cite{lundberg2017unified} is a popular technique for model interpretation. It is based on the concept of Shapley values from cooperative game theory and provides a unified framework for explaining the output of any machine learning model. SHAP assigns importance scores to each feature, indicating their contribution to the model's prediction for a specific instance. By applying SHAP to trained classifiers, researchers can identify the key features that contribute to detecting particular types of attacks.
+SHAP (SHapley Additive exPlanations)~\cite{lundberg2017unified} is a leading technique for model interpretation, rooted in cooperative game theory. It assigns importance scores to each feature, quantifying their contribution to a model’s prediction for a given instance. In the context of NIDS, SHAP helps identify key features that influence the detection of specific attacks, enhancing transparency and trust in the model’s outputs.
 
-The insights gained from explainable AI techniques can help validate the reliability of the trained models, identify potential biases or limitations in the datasets, and guide future improvements in feature engineering and model development. Moreover, these insights can be valuable for network security analysts and practitioners in understanding the key factors contributing to detecting specific attacks and developing more targeted defence strategies.
+Insights from SHAP can validate model reliability, uncover dataset biases, and inform feature engineering. For network security practitioners, these explanations are invaluable for understanding the factors driving attack detection and refining defence strategies.
