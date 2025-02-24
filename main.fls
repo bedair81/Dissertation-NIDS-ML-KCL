@@ -386,8 +386,6 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
 INPUT ./Chapters/Implementation.tex
 INPUT ./Chapters/Implementation.tex
 OUTPUT Chapters/Implementation.aux
@@ -463,6 +461,7 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/omslmr.fd
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/omslmr.fd
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/omslmr.fd
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmsc.enc
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
 INPUT ./Appendices/FeatureList.tex
 INPUT ./Appendices/FeatureList.tex
 OUTPUT Appendices/FeatureList.aux
@@ -514,7 +513,6 @@ INPUT ./main.out
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb
